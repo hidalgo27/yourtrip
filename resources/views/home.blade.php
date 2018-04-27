@@ -325,8 +325,8 @@
                                                 <div class="container">
                                                     <h1 class="font-weight-bold">Ready to Plan?</h1>
                                                     <p>We require 30% of the land package and full payment for flights or special services in order to reserve your trip. The remaining amount is due no later than 45 days before arrival.</p>
-                                                    <p>(678) 894-9878</p>
-                                                    <p><a class="btn-link" href="#" role="button">megan@latinamericaforless.com</a></p>
+                                                    <p>(51)980476535</p>
+                                                    <p><a class="btn-link" href="#" role="button">doriam@gotoperu.com</a></p>
                                                 </div>
                                             </div>
 
