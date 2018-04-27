@@ -106,7 +106,7 @@
             <a class="nav-link text-white rounded-0 bg-g-yellow" href="#why">Why Us</a>
         </li>
     </ul>
-    @foreach($paquete->where('id', 156) as $paquetes)
+    @foreach($paquete->where('id', 201) as $paquetes)
     @endforeach
     <section class="bg-white">
         <div class="container-fluid">
