@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Cotizacion;
 use App\ItinerarioDestinos;
 use App\PaqueteCotizaciones;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,11 +15,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($idcotizacion, $idpaquete)
     {
+        $idpaquete = 156;
+        $idcotizacion = 170;
+        $cotizacion = Cotizacion::with(['paquete_cotizaciones'=>function($query)use($idpaquete){$query->where('id',$idpaquete);}])->where('id', $idcotizacion)->get();
         $paquete = PaqueteCotizaciones::with('itinerario_cotizaciones')->get();
+        $usuario = User::get();
         $itinerario_destino = ItinerarioDestinos::get();
-        return view('home', ['paquete'=>$paquete]);
+        return view('home', ['paquete'=>$paquete, 'cotizacion'=>$cotizacion, 'usuario'=>$usuario]);
     }
 
     /**

@@ -15,7 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::get('/', [
+Route::get('/coti/{cotizacion}-{paquete}', [
     'uses' => 'HomeController@index',
     'as' => 'home_path',
 ]);

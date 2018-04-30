@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="row justify-content-between mt-2">
                     <div class="col-md-6 col-lg-3">
-                        <a href="{{route('home_path')}}"><img src="{{asset('images/logos/logo-gotoperu-ave-w.png')}}" alt="" class="img-fluid"></a>
+                        <a href=""><img src="{{asset('images/logos/logo-gotoperu-ave-w.png')}}" alt="" class="img-fluid"></a>
                     </div>
                     {{--<div class="d-none d-lg-inline col-lg">--}}
                         {{--<div class="row align-items-center">--}}
@@ -23,18 +23,18 @@
                         {{--<a href="tel:+2029963000" class="mx-3 h4">(202) 996-3000</a>--}}
                         {{--<a href="#" class="mx-3 h2"  data-toggle="modal" data-target="#modal-menu"><i class="fas fa-bars"></i></a>--}}
                         <!-- Button trigger modal -->
-                            <div class="rounded bg-rgba-dark-1 p-4">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="{{asset('images/team/doriam.jpg')}}" alt="" class="rounded-circle img-fluid">
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="font-weight-bold m-0">Doriam Perez</h4>
-                                        <h6 class="">doriam@gotoperu.com</h6>
-                                        <h4 class="font-weight-bold">(51)980476535</h4>
-                                        <a href="" class="btn btn-outline-light">More about me</a>
-                                    </div>
-                                </div>
+                            {{--<div class="rounded bg-rgba-dark-1 p-4">--}}
+                                {{--<div class="row">--}}
+                                    {{--<div class="col-4">--}}
+                                        {{--<img src="{{asset('images/team/doriam.jpg')}}" alt="" class="rounded-circle img-fluid">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col">--}}
+                                        {{--<h4 class="font-weight-bold m-0">Doriam Perez</h4>--}}
+                                        {{--<h6 class="">doriam@gotoperu.com</h6>--}}
+                                        {{--<h4 class="font-weight-bold">(51)980476535</h4>--}}
+                                        {{--<a href="" class="btn btn-outline-light">More about me</a>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
                             </div>
                     </div>
                 </div>
@@ -50,20 +50,92 @@
                 {{--</video>--}}
 
                 <img src="{{asset('images/cusco.jpg')}}" alt="" id="hero-vid">
+                @php
+                    $precio_servicio = 0;
+                    $precio_hotel_s = 0;
+                    $precio_hotel_d = 0;
+                    $precio_hotel_m = 0;
+                    $precio_hotel_t = 0;
+                @endphp
+                @foreach($cotizacion as $cotizaciones)
+                    @if(isset($cotizaciones))
+                        @foreach($cotizaciones->paquete_cotizaciones as $paquetes)
+                            @foreach($paquetes->itinerario_cotizaciones as $itinerario)
+
+                                @foreach($itinerario->itinerario_servicios as $servicio)
+                                    @php
+                                        if ($servicio->precio_grupo == 0){
+                                            $precio_servicio_g = $servicio->precio * $cotizaciones->nropersonas;
+                                        }else{
+                                            $precio_servicio_g = $servicio->precio;
+                                        }
+                                        $precio_servicio = $precio_servicio + $precio_servicio_g;
+                                    @endphp
+                                @endforeach
+                            @endforeach
+
+                                @foreach($paquetes->paquete_precios as $paquete_precio)
+                                    @php
+
+                                        $utilidad_s = $paquete_precio->utilidad_s * $cotizaciones->nropersonas;
+                                        $precio_hotel_s = $precio_hotel_s + ($paquete_precio->precio_s * $paquete_precio->personas_s * ($cotizaciones->duracion - 1)) + $utilidad_s;
+
+                                        $utilidad_d = $paquete_precio->utilidad_d * $cotizaciones->nropersonas;
+                                        $precio_hotel_d = $precio_hotel_d + ($paquete_precio->precio_d * $paquete_precio->personas_d * ($cotizaciones->duracion - 1)) + $utilidad_d;
+
+                                        $utilidad_m = $paquete_precio->utilidad_m * $cotizaciones->nropersonas;
+                                        $precio_hotel_m = $precio_hotel_m + ($paquete_precio->precio_m * $paquete_precio->personas_m * ($cotizaciones->duracion - 1)) + $utilidad_m;
+
+                                        $utilidad_t = $paquete_precio->utilidad_t * $cotizaciones->nropersonas;
+                                        $precio_hotel_t = $precio_hotel_t + ($paquete_precio->precio_t * $paquete_precio->personas_t * ($cotizaciones->duracion - 1)) + $utilidad_t;
+
+                                    @endphp
+                                @endforeach
+
+                        @endforeach
+                    @endif
+                @endforeach
+
+
+
+                <div class="header-expedia-card col-md-5 col-lg-5 col-xl-3 text-white rounded bg-rgba-dark p-3">
+                    <div class="row">
+                        @foreach($usuario->where('id', $cotizaciones->users_id) as $usuarios)
+                            <div class="col">
+                                <h4 class="font-weight-bold m-0">{{$usuarios->name}}</h4>
+                                <h6 class="">{{$usuarios->email}}</h6>
+                                <h4 class="font-weight-bold">(51)980476535</h4>
+                                <button  type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#exampleModal">More about me</button>
+                            </div>
+
+                            <div class="col">
+                                <img src="{{asset('images/team/doriam.jpg')}}" alt="" class="rounded img-fluid">
+                            </div>
+                        @endforeach
+
+                    </div>
+                </div>
+
 
             </div>
 
             <div class="header-expedia p-3 w-100 d-none d-lg-inline text-white">
                 {{--<p class="text-white h6"><span class="bg-g-green p-1 rounded-circle px-3 text-white">1</span> Share your travel plans <span class="bg-g-yellow p-1 rounded-circle px-3 text-white ml-5">2</span> Receive a customize itinerary and quote <span class="bg-g-dark p-1 rounded-circle px-3 text-white ml-5">3</span> Discover the best of Peru with GOTOPERU</p>--}}
-                <h1 class="font-weight-bold display-4">Hi Douglas O'Brien</h1>
-                <h4 class="font-weight-bold">My name is Doriam,</h4>
-                <h4 class="font-weight-bold">I'm your personal Travel Advisor</h4>
+                @foreach($cotizaciones->cotizaciones_cliente as $cliente)
+
+                <h5 class="font-weight-bold text-g-yellow">Hi!</h5>
+                <h1 class="font-weight-bold display-4">{{ucwords(strtolower($cliente->cliente->nombres))}}</h1>
+                <h4 class="font-weight-bold text-g-yellow">This is {{ucwords(strtolower($usuarios->name))}} i will be happy to design together a vacation </h4>
+                @endforeach
+                {{--<h4 class="font-weight-bold">I'm your personal Travel Advisor</h4>--}}
             </div>
         </div>
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row content-header-row align-items-center">
                     <div class="col text-center">
+                        <h2 class="text-white display-4">PLAN {{$paquetes->plan}}</h2>
+                        <span class="text-white h3 d-block">{{$paquetes->duracion}} days from ${{$precio_servicio + $precio_hotel_s}}</span>
                         <a href="" class="text-white"><i class="fa fa-angle-down fa-4x"></i></a>
 
                         {{--<div class="text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay="0s">--}}
@@ -106,8 +178,7 @@
             <a class="nav-link text-white rounded-0 bg-g-yellow" href="#why">Why Us</a>
         </li>
     </ul>
-    @foreach($paquete->where('id', 201) as $paquetes)
-    @endforeach
+
     <section class="bg-white">
         <div class="container-fluid">
             <div class="row">
@@ -129,7 +200,8 @@
                                         <h3 class="font-weight-bold text-right">Arrival </h3>
                                     </div>
                                     <div class="col">
-                                        <h5>15 March 2018</h5>
+
+                                        <h5>{{date("d F, Y", strtotime($cotizaciones->fecha))}}</h5>
                                     </div>
                                 </div>
                                 <div class="row align-items-center">
@@ -137,7 +209,13 @@
                                         <h3 class="font-weight-bold text-right">Departure</h3>
                                     </div>
                                     <div class="col">
-                                        <h5>18 March 2018</h5>
+                                        @php
+                                            $duracion = $paquetes->duracion - 1;
+                                            $fecha = date($cotizaciones->fecha);
+                                            $nueva_fin = strtotime('+'.$duracion.' day' , strtotime($fecha)) ;
+                                            $nueva_fin = date ( 'Y-m-j' , $nueva_fin );
+                                        @endphp
+                                        <h5>{{date("d F, Y", strtotime($nueva_fin))}}</h5>
                                     </div>
                                 </div>
                                 <div class="row py-3 align-items-center">
@@ -195,9 +273,16 @@
                                     $num_des = count($paquetes->itinerario_cotizaciones);
                                 @endphp
                                 @foreach($paquetes->itinerario_cotizaciones->sortBy('dia') as $itinerario)
+                                    @php
+                                        $duracion = $itinerario->dias - 1;
+                                        $fecha = date($cotizaciones->fecha);
+                                        $nueva_fin = strtotime('+'.$duracion.' day' , strtotime($fecha)) ;
+                                        $nueva_fin = date ( 'Y-m-j' , $nueva_fin );
+                                    @endphp
+
                                     <div class="timeline @php if($i == $num_des) echo 'timeline-f' @endphp">
                                         <div class="timeline-title">
-                                            <span class="rounded-circle bg-g-green text-white py-4 font-weight-bold">DAY {{$itinerario->dias}}</span>
+                                            <span class="rounded-circle bg-g-green text-white py-4 font-weight-bold">{{date("F d", strtotime($nueva_fin))}}</span>
                                         </div>
                                         {{--<div class="col bg-dark">--}}
                                         {{--sdsdskl--}}
@@ -250,31 +335,57 @@
                                 <h2 class="pt-5 mb-4 display-4 font-weight-bold text-danger">Prices</h2>
                                 <h5>Prices Per Person <small class="text-primary font-weight-bold">($USD)</small></h5>
                                 <div class="card border-secondary">
-                                    <p class="card-header bg-dark text-g-yellow">Based on doble / triple occupancy </p>
+                                    <p class="card-header bg-dark text-g-yellow">{{$paquete_precio->estrellas}} star hotel category </p>
                                     <div class="card-body p-0">
+                                        @php
+                                            if ($paquete_precio->personas_s == 0){
+                                                $hide_s = 'd-none';
+                                            }else{
+                                                $hide_s = '';
+                                            }
+
+                                            if ($paquete_precio->personas_d == 0){
+                                                $hide_d = 'd-none';
+                                            }else{
+                                                $hide_d = '';
+                                            }
+
+                                            if ($paquete_precio->personas_m == 0){
+                                                $hide_m = 'd-none';
+                                            }else{
+                                                $hide_m = '';
+                                            }
+
+                                            if ($paquete_precio->personas_t == 0){
+                                                $hide_t = 'd-none';
+                                            }else{
+                                                $hide_t = '';
+                                            }
+
+                                        @endphp
                                         <table class="table m-0">
                                             <thead class="title-header bg-light">
                                             <tr>
-                                                <th>2 Stars</th>
-                                                <th>3 Stars</th>
-                                                <th>4 Stars</th>
-                                                <th>5 Stars</th>
+                                                <th class="{{$hide_s}}">Simple</th>
+                                                <th class="{{$hide_d}}">Doble</th>
+                                                <th class="{{$hide_m}}">Matrimonial</th>
+                                                <th class="{{$hide_t}}">Triple</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                {{--@foreach($paquetes->precio_paquetes->sortBy('estrellas') as $precio)--}}
-                                                    {{--@if($precio->precio_d > 0)--}}
-                                                        {{--<td>--}}
-                                                            {{--<sup>$</sup>{{$precio->precio_d}}--}}
-                                                        {{--</td>--}}
-                                                    {{--@else--}}
-                                                        {{--<td class="text-danger">--}}
-                                                            {{--Inquire--}}
-                                                        {{--</td>--}}
-                                                    {{--@endif--}}
-                                                {{--@endforeach--}}
-
+                                                <td class="{{$hide_s}}">
+                                                    <sup>$</sup> {{$precio_servicio + $precio_hotel_s}}
+                                                </td>
+                                                <td class="{{$hide_d}}">
+                                                    <sup>$</sup> {{$precio_servicio + $precio_hotel_d}}
+                                                </td>
+                                                <td class="{{$hide_m}}">
+                                                    <sup>$</sup> {{$precio_servicio + $precio_hotel_m}}
+                                                </td>
+                                                <td class="{{$hide_t}}">
+                                                    <sup>$</sup> {{$precio_servicio + $precio_hotel_t}}
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>

@@ -13140,8 +13140,9 @@ header {
 
 .header-expedia-card {
   position: absolute;
-  top: 24%;
+  top: 38%;
   z-index: 2;
+  right: 0;
 }
 
 #html5-watermark {
