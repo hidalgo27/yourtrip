@@ -135,7 +135,7 @@
                 <div class="row content-header-row align-items-center">
                     <div class="col text-center">
                         <h2 class="text-white display-4">PLAN {{$paquetes->plan}}</h2>
-                        <span class="text-white h3 d-block">{{$paquetes->duracion}} days from ${{$precio_servicio + $precio_hotel_s}}</span>
+                        <span class="text-white h3 d-block">{{$paquetes->duracion}} days | ${{$precio_servicio + $precio_hotel_s}}</span>
                         <a href="" class="text-white"><i class="fa fa-angle-down fa-4x"></i></a>
 
                         {{--<div class="text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay="0s">--}}
