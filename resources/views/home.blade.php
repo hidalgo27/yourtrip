@@ -250,16 +250,44 @@
                                 </div>
                             </div>
                             <div class="col sticky-top-50">
-                                <div class="rounded bg-rgba-dark-1 p-4 sticky-top sticky-top-50">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <img src="{{asset('images/team/doriam.jpg')}}" alt="" class="rounded-circle img-fluid">
-                                        </div>
-                                        <div class="col">
-                                            <h4 class="font-weight-bold m-0">Doriam Perez</h4>
-                                            <h6 class="">doriam@gotoperu.com</h6>
-                                            <h4 class="font-weight-bold">(51)980476535</h4>
-                                            <a href="" class="btn btn-outline-g-dark">More about me</a>
+                                {{--<div class="rounded bg-rgba-dark-1 p-4 sticky-top sticky-top-50">--}}
+                                    {{--<div class="row">--}}
+                                        {{--<div class="col-4">--}}
+                                            {{--<img src="{{asset('images/team/doriam.jpg')}}" alt="" class="rounded-circle img-fluid">--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col">--}}
+                                            {{--<h4 class="font-weight-bold m-0">Doriam Perez</h4>--}}
+                                            {{--<h6 class="">doriam@gotoperu.com</h6>--}}
+                                            {{--<h4 class="font-weight-bold">(51)980476535</h4>--}}
+                                            {{--<a href="" class="btn btn-outline-g-dark">More about me</a>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                        <a href="" class="rounded-circle bg-g-dark p-4 h2 text-white font-weight-bold img-thumbnail">PLAN A</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="" class="rounded-circle bg-secondary p-4 h2 text-white font-weight-bold">PLAN B</a>
+                                    </div>
+                                </div>
+                                <div class="row pt-5">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-block text-left">
+                                                    <span class="text-primary h4 font-weight-bold align-bottom">{{$paquetes->duracion}} Dias</span>
+                                                    {{--<img src="{{asset('images/icons/subtitle.png')}}" alt="" class="img-fluid mb-1" width="100">--}}
+                                                </div>
+                                                {{--<p class="text-primary h4 font-weight-bold">10 Day</p>--}}
+                                                <p class="h1 font-montserrat pt-2 m-0 text-center font-weight-bold">
+                                                            <span class="text-info">${{$precio_servicio + $precio_hotel_s}}</span>
+
+                                                    <small>USD</small></p>
+                                                <p class="text-secondary h3 m-0"><strong>Code:</strong> {{$paquetes->codigo}}</p>
+                                                {{--<a href="#book-now" class="btn btn-warning btn-block btn-lg btn-info mt-3">Consulte</a>--}}
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
