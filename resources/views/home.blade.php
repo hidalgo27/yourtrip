@@ -227,6 +227,11 @@
                                         {{--<p class="font-wefont-weight-bold"><i class="fa fa-check"></i> {{ucwords(strtolower($paquete_destino->destinos->nombre))}}</p>--}}
                                         {{--<a href="{{route('destinations_country_show_path', ['peru-travel', str_replace(' ', '-', strtolower($paquete_destino->destinos->nombre))])}}-tours"><img src="{{asset('images/destinations/destinations/'.str_replace(' ','-', strtolower($paquete_destino->destinos->nombre)).'')}}.jpg" alt="" width="50" height="50" class="rounded-circle" data-toggle="tooltip" data-placement="top" title="{{ucwords(strtolower($paquete_destino->destinos->nombre))}}"></a>--}}
                                         {{--@endforeach--}}
+
+                                        @foreach($destinos as $destino)
+                                                <a href=""><img src="{{asset('images/destinations/destinations/'.str_replace(' ','-', strtolower($destino)).'')}}.jpg" alt="" width="50" height="50" class="rounded-circle" data-toggle="tooltip" data-placement="top" title="{{ucwords(strtolower($destino))}}"></a>
+                                        @endforeach
+
                                     </div>
                                 </div>
                                 <div class="row align-items-center">
@@ -326,123 +331,175 @@
 
 
                     </div>
-                    <div id="Hotels">
 
-                    </div>
-                    <div id="Prices">
+                    <div>
                         <div class="row">
                             <div class="col-8">
-                                <h2 class="pt-5 mb-4 display-4 font-weight-bold text-danger">Prices</h2>
-                                <h5>Prices Per Person <small class="text-primary font-weight-bold">($USD)</small></h5>
-                                <div class="card border-secondary">
-                                    <p class="card-header bg-dark text-g-yellow">{{$paquete_precio->estrellas}} star hotel category </p>
-                                    <div class="card-body p-0">
-                                        @php
-                                            if ($paquete_precio->personas_s == 0){
-                                                $hide_s = 'd-none';
-                                            }else{
-                                                $hide_s = '';
-                                            }
-
-                                            if ($paquete_precio->personas_d == 0){
-                                                $hide_d = 'd-none';
-                                            }else{
-                                                $hide_d = '';
-                                            }
-
-                                            if ($paquete_precio->personas_m == 0){
-                                                $hide_m = 'd-none';
-                                            }else{
-                                                $hide_m = '';
-                                            }
-
-                                            if ($paquete_precio->personas_t == 0){
-                                                $hide_t = 'd-none';
-                                            }else{
-                                                $hide_t = '';
-                                            }
-
-                                        @endphp
-                                        <table class="table m-0">
-                                            <thead class="title-header bg-light">
-                                            <tr>
-                                                <th class="{{$hide_s}}">Simple</th>
-                                                <th class="{{$hide_d}}">Doble</th>
-                                                <th class="{{$hide_m}}">Matrimonial</th>
-                                                <th class="{{$hide_t}}">Triple</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td class="{{$hide_s}}">
-                                                    <sup>$</sup> {{$precio_servicio + $precio_hotel_s}}
-                                                </td>
-                                                <td class="{{$hide_d}}">
-                                                    <sup>$</sup> {{$precio_servicio + $precio_hotel_d}}
-                                                </td>
-                                                <td class="{{$hide_m}}">
-                                                    <sup>$</sup> {{$precio_servicio + $precio_hotel_m}}
-                                                </td>
-                                                <td class="{{$hide_t}}">
-                                                    <sup>$</sup> {{$precio_servicio + $precio_hotel_t}}
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="row" id="Hotels">
+                                    <div class="col">
+                                        <h2 class="pt-5 mb-4 display-4 font-weight-bold text-danger">HOTELS</h2>
                                     </div>
                                 </div>
-
-                                <div class="row mt-4">
+                                <div class="row">
                                     <div class="col">
-                                        <h3 class="text-secondary h4"><strong>Included</strong></h3>
-                                        @php echo $paquetes->incluye; @endphp
-                                    </div>
-                                    <div class="col">
-                                        <h3 class="text-secondary h4"><strong>Not Included</strong></h3>
-                                        @php echo $paquetes->noincluye; @endphp
-                                    </div>
-                                </div>
-
-
-                                <div id="why">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="pt-5 mb-4 display-4 font-weight-bold text-g-yellow">Why Us</h3>
-
-                                            <h3 class="font-weight-bold">2000+ Testimonials</h3>
-                                            <p>With 16+ years in the travel business, we have a long history of delivering superlative service. Click here to see what our travelers say about us.</p>
-
-                                            <h3 class="font-weight-bold">Prompt and Personalized Service</h3>
-                                            <p>All tours are fully customizable. We work alongside you to create the perfect itinerary. Private or group. Luxury or budget. We do it all! All airport transfers in Peru are private.</p>
-
-                                            <h3 class="font-weight-bold">Superb Staff</h3>
-                                            <p>We have over 50 team members who work full time in order to deliver trips of a lifetime, to all our destinations. Most of our team is based in South America and directly supervise all of your travel arrangements. Meet our team.</p>
-
-                                            <h3 class="font-weight-bold">Expert Local Guides</h3>
-                                            <p>We work with English-speaking, local certified tour guides who are passionate about Peru. They will help you get to the heart of each destination you visit.</p>
-
-                                            <h3 class="font-weight-bold">24/7 In-trip Assistance</h3>
-                                            <p>Once your trip begins, you have access to our 24-hour emergency phone number. Our English-speaking operators will be there to assist you with any query or concern.</p>
-
-                                            <h3 class="font-weight-bold">Free Portable Wi-Fi</h3>
-                                            <p>We want you to stay connected with family and friends. If you book one of our Peru Specials (minimum stay of 4 days) with a stop in Cusco, Machu Picchu, and the Sacred Valley, we will provide you with free portable Wi-Fi. You’ll have access to portable, fast, and reliable internet during the Cusco and Machu Picchu portion of your trip, to help you stay connected. This offer is available when you pay by check, direct deposit, or wire transfer. Moreover, you will have access to 24/7 English-speaking traveler assistance during your travels.</p>
-
-                                            <h3 class="font-weight-bold">Best Value</h3>
-                                            <p>Our clients have written our history through their testimonials and online posts. We continuously carry out extensive research on all types of services to build the strongest brand name in travel to Peru.</p>
-
-
-
-                                            <div class="jumbotron">
-                                                <div class="container">
-                                                    <h1 class="font-weight-bold">Ready to Plan?</h1>
-                                                    <p>We require 30% of the land package and full payment for flights or special services in order to reserve your trip. The remaining amount is due no later than 45 days before arrival.</p>
-                                                    <p>(51)980476535</p>
-                                                    <p><a class="btn-link" href="#" role="button">doriam@gotoperu.com</a></p>
-                                                </div>
-                                            </div>
-
-
+                                        {{--<h3 class="text-secondary h4"><strong>Hotels</strong></h3>--}}
+                                        {{--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores at distinctio eos error minus, perspiciatis praesentium sint suscipit ullam voluptatum. Ab, aliquid architecto atque consequuntur expedita hic inventore non repudiandae!</p>--}}
+                                        <div class="alert alert-primary text-center mt-3" role="alert">|
+                                            @foreach($destinos as $destino1)
+                                                <a href="#{{strtolower($destino1)}}-hotel" class="font-weight-bold">{{strtoupper($destino1)}} </a> |
+                                            @endforeach
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        @foreach($destinos as $destino2)
+                                            <h5 class="text-g-yellow pt-4" id="{{strtolower($destino2)}}-hotel"><i class="fa fa-check"></i> {{$destino2}} HOTEL</h5>
+                                            <div class="row">
+
+                                                @foreach($hotel->where('localizacion', $destino2) as $hoteles)
+
+                                                    <div class="col-6 d-flex my-3">
+                                                        <div class="row">
+                                                            <div class="col-auto d-none d-sm-block">
+                                                                <img src="" alt="" class=" rounded-circle" width="50" height="50">
+                                                            </div>
+                                                            <div class="col">
+                                                                <a href="" class="h5 align-middle">{{$hoteles->razon_social}}</a>
+
+                                                                <small><i class="fa fa-star text-g-yellow"></i></small>
+
+                                                                <small class="d-block text-secondary"><i class="fa fa-map-marker-alt"></i> {{$hoteles->direccion}}</small>
+
+                                                                <p class="pt-2"><b>Services:</b>
+
+                                                                    <i class="fa fa-check text-secondary"></i>
+
+                                                                </p>
+                                                                {{--                                                        <a href="{{$hoteles_destino->hotel->url}}" class="btn btn-outline-secondary" target="_blank">{{$hoteles_destino->hotel->nombre}}</a>--}}
+                                                            </div>
+                                                        </div>
+                                                        {{--<hr>--}}
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endforeach
+
+                                    </div>
+                                </div>
+
+                                <div class="row" id="Prices">
+                                    <div class="col">
+                                        <h2 class="pt-5 mb-4 display-4 font-weight-bold text-info">Prices</h2>
+                                        <h5>Prices Per Person <small class="text-primary font-weight-bold">($USD)</small></h5>
+                                        <div class="card border-secondary">
+                                            <p class="card-header bg-dark text-g-yellow">{{$paquete_precio->estrellas}} star hotel category </p>
+                                            <div class="card-body p-0">
+                                                @php
+                                                    if ($paquete_precio->personas_s == 0){
+                                                        $hide_s = 'd-none';
+                                                    }else{
+                                                        $hide_s = '';
+                                                    }
+
+                                                    if ($paquete_precio->personas_d == 0){
+                                                        $hide_d = 'd-none';
+                                                    }else{
+                                                        $hide_d = '';
+                                                    }
+
+                                                    if ($paquete_precio->personas_m == 0){
+                                                        $hide_m = 'd-none';
+                                                    }else{
+                                                        $hide_m = '';
+                                                    }
+
+                                                    if ($paquete_precio->personas_t == 0){
+                                                        $hide_t = 'd-none';
+                                                    }else{
+                                                        $hide_t = '';
+                                                    }
+
+                                                @endphp
+                                                <table class="table m-0">
+                                                    <thead class="title-header bg-light">
+                                                    <tr>
+                                                        <th class="{{$hide_s}}">Simple</th>
+                                                        <th class="{{$hide_d}}">Doble</th>
+                                                        <th class="{{$hide_m}}">Matrimonial</th>
+                                                        <th class="{{$hide_t}}">Triple</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td class="{{$hide_s}}">
+                                                            <sup>$</sup> {{$precio_servicio + $precio_hotel_s}}
+                                                        </td>
+                                                        <td class="{{$hide_d}}">
+                                                            <sup>$</sup> {{$precio_servicio + $precio_hotel_d}}
+                                                        </td>
+                                                        <td class="{{$hide_m}}">
+                                                            <sup>$</sup> {{$precio_servicio + $precio_hotel_m}}
+                                                        </td>
+                                                        <td class="{{$hide_t}}">
+                                                            <sup>$</sup> {{$precio_servicio + $precio_hotel_t}}
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-4">
+                                            <div class="col">
+                                                <h3 class="text-secondary h4"><strong>Included</strong></h3>
+                                                @php echo $paquetes->incluye; @endphp
+                                            </div>
+                                            <div class="col">
+                                                <h3 class="text-secondary h4"><strong>Not Included</strong></h3>
+                                                @php echo $paquetes->noincluye; @endphp
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="why">
+                                    <div class="col">
+                                        <h3 class="pt-5 mb-4 display-4 font-weight-bold text-g-yellow">Why Us</h3>
+
+                                        <h3 class="font-weight-bold">2000+ Testimonials</h3>
+                                        <p>With 16+ years in the travel business, we have a long history of delivering superlative service. Click here to see what our travelers say about us.</p>
+
+                                        <h3 class="font-weight-bold">Prompt and Personalized Service</h3>
+                                        <p>All tours are fully customizable. We work alongside you to create the perfect itinerary. Private or group. Luxury or budget. We do it all! All airport transfers in Peru are private.</p>
+
+                                        <h3 class="font-weight-bold">Superb Staff</h3>
+                                        <p>We have over 50 team members who work full time in order to deliver trips of a lifetime, to all our destinations. Most of our team is based in South America and directly supervise all of your travel arrangements. Meet our team.</p>
+
+                                        <h3 class="font-weight-bold">Expert Local Guides</h3>
+                                        <p>We work with English-speaking, local certified tour guides who are passionate about Peru. They will help you get to the heart of each destination you visit.</p>
+
+                                        <h3 class="font-weight-bold">24/7 In-trip Assistance</h3>
+                                        <p>Once your trip begins, you have access to our 24-hour emergency phone number. Our English-speaking operators will be there to assist you with any query or concern.</p>
+
+                                        <h3 class="font-weight-bold">Free Portable Wi-Fi</h3>
+                                        <p>We want you to stay connected with family and friends. If you book one of our Peru Specials (minimum stay of 4 days) with a stop in Cusco, Machu Picchu, and the Sacred Valley, we will provide you with free portable Wi-Fi. You’ll have access to portable, fast, and reliable internet during the Cusco and Machu Picchu portion of your trip, to help you stay connected. This offer is available when you pay by check, direct deposit, or wire transfer. Moreover, you will have access to 24/7 English-speaking traveler assistance during your travels.</p>
+
+                                        <h3 class="font-weight-bold">Best Value</h3>
+                                        <p>Our clients have written our history through their testimonials and online posts. We continuously carry out extensive research on all types of services to build the strongest brand name in travel to Peru.</p>
+
+
+
+                                        <div class="jumbotron">
+                                            <div class="container">
+                                                <h1 class="font-weight-bold">Ready to Plan?</h1>
+                                                <p>We require 30% of the land package and full payment for flights or special services in order to reserve your trip. The remaining amount is due no later than 45 days before arrival.</p>
+                                                <p>(51)980476535</p>
+                                                <p><a class="btn-link" href="#" role="button">doriam@gotoperu.com</a></p>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Cotizacion;
+use App\ItinerarioCotizaciones;
 use App\ItinerarioDestinos;
 use App\PaqueteCotizaciones;
+use App\Proveedor;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -17,12 +19,27 @@ class HomeController extends Controller
      */
     public function index($idcotizacion, $idpaquete)
     {
-        
+
         $cotizacion = Cotizacion::with(['paquete_cotizaciones'=>function($query)use($idpaquete){$query->where('id',$idpaquete);}])->where('id', $idcotizacion)->get();
-        $paquete = PaqueteCotizaciones::with('itinerario_cotizaciones')->get();
+//        $paquete = PaqueteCotizaciones::with('itinerario_cotizaciones')->where('id', $idpaquete)->get();
+        $itinerarioss = ItinerarioCotizaciones::with('itinerario_destinos')->where('paquete_cotizaciones_id', $idpaquete)->get();
+//        dd($itinerarioss);
         $usuario = User::get();
         $itinerario_destino = ItinerarioDestinos::get();
-        return view('home', ['paquete'=>$paquete, 'cotizacion'=>$cotizacion, 'usuario'=>$usuario]);
+
+        $hotel = Proveedor::with('hotel')->where('grupo', 'HOTELS')->get();
+        $destinos = [];
+        foreach ($itinerarioss as $itinerarios){
+            foreach ($itinerarios->itinerario_destinos->where('itinerario_cotizaciones_id',$itinerarios->id) as $destino) {
+//                $destinos[] = ItinerarioDestinos::where('itinerario_cotizaciones_id',$itinerarios->id)->get();
+                if (!in_array($destino->destino,  $destinos))
+                $destinos[] = $destino->destino;
+            }
+
+        }
+
+
+        return view('home', ['cotizacion'=>$cotizacion, 'usuario'=>$usuario, 'itinerario_destino'=>$itinerario_destino, 'itinerarioss'=>$itinerarioss, 'destinos'=>$destinos, 'hotel'=>$hotel]);
     }
 
     /**
