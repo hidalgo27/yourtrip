@@ -310,7 +310,7 @@
                                                     @if($paquetes_p->id == $paquetes->id)
                                                         <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}">Plan {{$paquetes_p->plan}}</a> |
                                                     @else
-                                                        <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}" class="text-secondary">Plan {{$paquetes_p->plan}}</a> | 
+                                                        <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}" class="text-secondary">Plan {{$paquetes_p->plan}}</a> |
                                                     @endif
                                                 @endforeach
 
@@ -451,7 +451,7 @@
                     </div>
 
                     <div>
-                        <div class="row">
+                        <div class="row mt-5">
                             <div class="col-8">
                                 <div class="row" id="Hotels">
                                     <div class="col">
