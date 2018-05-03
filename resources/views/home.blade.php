@@ -178,15 +178,44 @@
             <a class="nav-link text-white rounded-0 bg-g-yellow" href="#why">Why Us</a>
         </li>
     </ul>
-
+    {{--<section class="clearfix">--}}
+        {{--<div class="container">--}}
+            {{--<div class="row">--}}
+                {{--<div class="col">--}}
+                    {{--<a href="" class="rounded-circle bg-g-dark p-4 h2 text-white font-weight-bold">PLAN A</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</section>--}}
     <section class="bg-white">
         <div class="container-fluid">
+            <div class="row justify-content-center pt-4">
+                @foreach($paquete_p->sortBy('plan') as $paquetes_p)
+                    @if($paquetes_p->id == $paquetes->id)
+                    <div class="col-auto">
+                        <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}" class="bg-g-dark text-white py-3 px-4 rounded-circle h2 font-weight-bold d-block">PLAN {{$paquetes_p->plan}}
+                            {{--<small class="d-block h5 text-center text-g-yellow">${{$precio_servicio + $precio_hotel_s}}</small>--}}
+                        </a>
+                    </div>
+                    @else
+                    <div class="col-auto">
+                        <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}" class="bg-light text-secondary py-3 px-4 rounded-circle h2 font-weight-bold d-block">PLAN {{$paquetes_p->plan}}
+                            {{--<small class="d-block h5 text-center">${{$precio_servicio + $precio_hotel_s}}</small>--}}
+                        </a>
+                    </div>
+                    @endif
+                @endforeach
+                <div class="col-12 text-center">
+                    <p class="d-block text-primary">Usted tiene 2 planes para un viaje inolvidable</p>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col">
                     <div id="overview">
                         <div class="row">
                             <div class="col-8">
-                                <h2 class="pt-5 mb-4 display-4 font-weight-bold text-g-dark">Overview</h2>
+                                <h2 class="mb-4 display-4 font-weight-bold text-g-dark">Overview</h2>
                                 <div class="row align-items-center">
                                     <div class="col-2">
                                         <h3 class="font-weight-bold text-right">Trip</h3>
@@ -249,7 +278,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col sticky-top-50">
+                            <div class="col">
                                 {{--<div class="rounded bg-rgba-dark-1 p-4 sticky-top sticky-top-50">--}}
                                     {{--<div class="row">--}}
                                         {{--<div class="col-4">--}}
@@ -263,28 +292,30 @@
                                         {{--</div>--}}
                                     {{--</div>--}}
                                 {{--</div>--}}
-                                <div class="row justify-content-center">
-                                    <div class="col-auto">
-                                        <a href="" class="rounded-circle bg-g-dark p-4 h2 text-white font-weight-bold img-thumbnail">PLAN A</a>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="" class="rounded-circle bg-secondary p-4 h2 text-white font-weight-bold">PLAN B</a>
-                                    </div>
-                                </div>
-                                <div class="row pt-5">
+
+                                <div class="row sticky-top sticky-top-50">
                                     <div class="col">
-                                        <div class="card">
+                                        <div class="card bg-light">
                                             <div class="card-body">
                                                 <div class="d-block text-left">
-                                                    <span class="text-primary h4 font-weight-bold align-bottom">{{$paquetes->duracion}} Dias</span>
+                                                    <span class="text-g-yellow h4 font-weight-bold align-bottom">{{$paquetes->duracion}} Days</span>
                                                     {{--<img src="{{asset('images/icons/subtitle.png')}}" alt="" class="img-fluid mb-1" width="100">--}}
                                                 </div>
                                                 {{--<p class="text-primary h4 font-weight-bold">10 Day</p>--}}
-                                                <p class="h1 font-montserrat pt-2 m-0 text-center font-weight-bold">
-                                                            <span class="text-info">${{$precio_servicio + $precio_hotel_s}}</span>
-
+                                                <p class="py-2 m-0 text-center">
+                                                    <span class="text-info font-weight-bold display-4">${{$precio_servicio + $precio_hotel_s}}</span>
                                                     <small>USD</small></p>
-                                                <p class="text-secondary h3 m-0"><strong>Code:</strong> {{$paquetes->codigo}}</p>
+                                                <p class="text-secondary h5 font-weight-bold"><strong>Proposals:</strong>
+                                                @foreach($paquete_p->sortBy('plan') as $paquetes_p)
+                                                    @if($paquetes_p->id == $paquetes->id)
+                                                        <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}">Plan {{$paquetes_p->plan}}</a> |
+                                                    @else
+                                                        <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}" class="text-secondary">Plan {{$paquetes_p->plan}}</a> | 
+                                                    @endif
+                                                @endforeach
+
+                                                </p>
+                                                <p class="text-secondary h5 font-weight-bold m-0"><strong>Code:</strong> {{$paquetes->codigo}}</p>
                                                 {{--<a href="#book-now" class="btn btn-warning btn-block btn-lg btn-info mt-3">Consulte</a>--}}
 
                                             </div>
@@ -299,63 +330,122 @@
                     </div>
                     <div id="Itinerary">
                         <div class="row">
-                            <div class="col-8">
-                                <h2 class="pt-5 mb-4 display-4 font-weight-bold text-g-green">Itinerary</h2>
-                                @php
-                                    $i = 1;
-                                    $num_des = count($paquetes->itinerario_cotizaciones);
-                                @endphp
-                                @foreach($paquetes->itinerario_cotizaciones->sortBy('dia') as $itinerario)
-                                    @php
-                                        $duracion = $itinerario->dias - 1;
-                                        $fecha = date($cotizaciones->fecha);
-                                        $nueva_fin = strtotime('+'.$duracion.' day' , strtotime($fecha)) ;
-                                        $nueva_fin = date ( 'Y-m-j' , $nueva_fin );
-                                    @endphp
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h2 class="pt-5 mb-4 display-4 font-weight-bold text-g-green">Itinerary</h2>
+                                        <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link resumen active" id="home-tab" data-toggle="tab" href="#resumen" role="tab" aria-controls="resumen" aria-selected="true">Resumen</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link resumen" id="profile-tab" data-toggle="tab" href="#detalle" role="tab" aria-controls="detalle" aria-selected="false">Detallado</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="resumen" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                @foreach($paquetes->itinerario_cotizaciones->sortBy('dias') as $itinerario)
+                                                    @php
+                                                        $duracion = $itinerario->dias - 1;
+                                                        $fecha = date($cotizaciones->fecha);
+                                                        $nueva_fin = strtotime('+'.$duracion.' day' , strtotime($fecha)) ;
+                                                        $nueva_fin = date ( 'Y-m-j' , $nueva_fin );
+                                                    @endphp
+                                                    <div id="day-{{$itinerario->dias}}" class="text-justify">
+                                                        {{--<h3 class="text-g-yellow pt-5">{{$itinerario->titulo}}</h3>--}}
+                                                        <h4 class="font-weight-bold pt-5 text-g-yellow align-items-center"><span class="badge badge-pill badge-g-dark">{{date("F d", strtotime($nueva_fin))}}: </span> <span>{{ucwords(strtolower($itinerario->titulo))}}</span></h4>
+                                                        @php echo $itinerario->descripcion; @endphp
+                                                    </div>
 
-                                    <div class="timeline @php if($i == $num_des) echo 'timeline-f' @endphp">
-                                        <div class="timeline-title">
-                                            <span class="rounded-circle bg-g-green text-white py-4 font-weight-bold">{{date("F d", strtotime($nueva_fin))}}</span>
-                                        </div>
-                                        {{--<div class="col bg-dark">--}}
-                                        {{--sdsdskl--}}
-                                        {{--</div>--}}
-                                        <div class="col">
-                                            {{--<div class="col">--}}
-                                            {{--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum error esse eveniet, inventore maxime, modi nam nisi nulla saepe vitae voluptatem voluptatum! Corporis deserunt eos fugiat numquam quidem voluptas?--}}
-                                            {{--</div>--}}
-                                            <div class="timeline-content position-relative">
-                                                <div class="row">
-                                                    <div class="timeline-point">
-                                                        <i class="fa fa-circle text-secondary"></i>
-                                                    </div>
-                                                    <div class="timeline-custom-col content-col ">
-                                                        <div class="timeline-location-block">
-                                                            <p class="location-name">{{ucwords(strtolower($itinerario->titulo))}} <i class="fa fa-map-marker-alt icon-marker"></i></p>
-                                                            <div class="description">
-                                                                @php echo $itinerario->descripcion @endphp
-                                                            </div>
-                                                        </div>
-                                                        {{--<div class="timeline-custom-col">--}}
-                                                        {{--<div class="timeline-image-block">--}}
-                                                        {{--<img src="http://wp.swlabs.co/exploore/wp-content/uploads/2016/05/london.png" alt="">--}}
-                                                        {{--</div>--}}
-                                                        {{--</div>--}}
-                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="col d-none d-sm-block">
+                                                <div class="sticky-top sticky-top-50">
+                                                    <nav id="menu" class="navbar navbar-light nav-goto-side w-100">
+                                                        <nav class="nav nav-pills flex-column w-100">
+                                                            @foreach($paquetes->itinerario_cotizaciones->sortBy('dias') as $itinerario)
+                                                                <a class="nav-link" href="#day-{{$itinerario->dias}}"><strong>Day {{$itinerario->dias}}: </strong> {{ucwords(strtolower($itinerario->titulo))}}</a>
+                                                            @endforeach
+
+                                                            {{--<a class="nav-link" href="#machu-picchu">Machu Picchu</a>--}}
+                                                            {{--<a class="nav-link" href="#sacred-valley">Sacred Valley</a>--}}
+                                                            {{--<a class="nav-link" href="#lake-titicaca">Lake Titicaca</a>--}}
+                                                            {{--<a class="nav-link" href="#lima">Lima</a>--}}
+                                                            {{--<a class="nav-link" href="#treks">Treks</a>--}}
+
+                                                        </nav>
+                                                    </nav>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    @php $i++; @endphp
-                                @endforeach
-                            </div>
-                            <div class="col sticky-top-50">
-                                <div class="sticky-top my-4 sticky-top-50">
-                                    <img src="{{asset('images/maps/'.$paquetes->codigo.'.jpg')}}" alt="" class="img-fluid rounded">
-                                    {{--<button class="btn btn-block btn-lg btn-g-yellow mt-2">Book Now</button>--}}
+                                    <div class="tab-pane fade" id="detalle" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                @php
+                                                    $i = 1;
+                                                    $num_des = count($paquetes->itinerario_cotizaciones);
+                                                @endphp
+                                                @foreach($paquetes->itinerario_cotizaciones->sortBy('dia') as $itinerario)
+                                                    @php
+                                                        $duracion = $itinerario->dias - 1;
+                                                        $fecha = date($cotizaciones->fecha);
+                                                        $nueva_fin = strtotime('+'.$duracion.' day' , strtotime($fecha)) ;
+                                                        $nueva_fin = date ( 'Y-m-j' , $nueva_fin );
+                                                    @endphp
+
+                                                    <div class="timeline @php if($i == $num_des) echo 'timeline-f' @endphp">
+                                                        <div class="timeline-title">
+                                                            <span class="rounded-circle bg-g-green text-white py-4 font-weight-bold">{{date("F d", strtotime($nueva_fin))}}</span>
+                                                        </div>
+                                                        {{--<div class="col bg-dark">--}}
+                                                        {{--sdsdskl--}}
+                                                        {{--</div>--}}
+                                                        <div class="col">
+                                                            {{--<div class="col">--}}
+                                                            {{--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum error esse eveniet, inventore maxime, modi nam nisi nulla saepe vitae voluptatem voluptatum! Corporis deserunt eos fugiat numquam quidem voluptas?--}}
+                                                            {{--</div>--}}
+                                                            <div class="timeline-content position-relative">
+                                                                <div class="row">
+                                                                    <div class="timeline-point">
+                                                                        <i class="fa fa-circle text-secondary"></i>
+                                                                    </div>
+                                                                    <div class="timeline-custom-col content-col ">
+                                                                        <div class="timeline-location-block">
+                                                                            <p class="location-name">{{ucwords(strtolower($itinerario->titulo))}} <i class="fa fa-map-marker-alt icon-marker"></i></p>
+                                                                            <div class="description">
+                                                                                @php echo $itinerario->descripcion @endphp
+                                                                            </div>
+                                                                        </div>
+                                                                        {{--<div class="timeline-custom-col">--}}
+                                                                        {{--<div class="timeline-image-block">--}}
+                                                                        {{--<img src="http://wp.swlabs.co/exploore/wp-content/uploads/2016/05/london.png" alt="">--}}
+                                                                        {{--</div>--}}
+                                                                        {{--</div>--}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @php $i++; @endphp
+                                                @endforeach
+                                            </div>
+                                            <div class="col sticky-top-50">
+                                                <div class="sticky-top my-4 sticky-top-50">
+                                                    <img src="{{asset('images/maps/'.$paquetes->codigo.'.jpg')}}" alt="" class="img-fluid rounded">
+                                                    {{--<button class="btn btn-block btn-lg btn-g-yellow mt-2">Book Now</button>--}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
 
 
                     </div>
@@ -395,7 +485,10 @@
                                                             <div class="col">
                                                                 <a href="" class="h5 align-middle">{{$hoteles->razon_social}}</a>
 
-                                                                <small><i class="fa fa-star text-g-yellow"></i></small>
+                                                                @for($i=0; $i < $hoteles->categoria; $i++)
+                                                                    {{--{{$i}}-122133--}}
+                                                                    <small><i class="fa fa-star text-g-yellow"></i></small>
+                                                                @endfor
 
                                                                 <small class="d-block text-secondary"><i class="fa fa-map-marker-alt"></i> {{$hoteles->direccion}}</small>
 
@@ -532,20 +625,56 @@
                                 </div>
 
                             </div>
-                            <div class="col sticky-top-50">
-                                <div class="rounded bg-rgba-dark-1 p-4 sticky-top sticky-top-50">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <img src="{{asset('images/team/doriam.jpg')}}" alt="" class="rounded-circle img-fluid">
+                            <div class="col">
+                                <div class="row sticky-top sticky-top-50">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="card bg-light">
+                                                    <div class="card-body">
+                                                        <div class="d-block text-left">
+                                                            <span class="text-g-yellow h4 font-weight-bold align-bottom">{{$paquetes->duracion}} Days</span>
+                                                            {{--<img src="{{asset('images/icons/subtitle.png')}}" alt="" class="img-fluid mb-1" width="100">--}}
+                                                        </div>
+                                                        {{--<p class="text-primary h4 font-weight-bold">10 Day</p>--}}
+                                                        <p class="py-2 m-0 text-center">
+                                                            <span class="text-info font-weight-bold display-4">${{$precio_servicio + $precio_hotel_s}}</span>
+                                                            <small>USD</small></p>
+                                                        <p class="text-secondary h5 font-weight-bold"><strong>Proposals:</strong>
+                                                            @foreach($paquete_p->sortBy('plan') as $paquetes_p)
+                                                                @if($paquetes_p->id == $paquetes->id)
+                                                                    <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}">Plan {{$paquetes_p->plan}}</a> |
+                                                                @else
+                                                                    <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}" class="text-secondary">Plan {{$paquetes_p->plan}}</a> |
+                                                                @endif
+                                                            @endforeach
+
+                                                        </p>
+                                                        <p class="text-secondary h5 font-weight-bold m-0"><strong>Code:</strong> {{$paquetes->codigo}}</p>
+                                                        {{--<a href="#book-now" class="btn btn-warning btn-block btn-lg btn-info mt-3">Consulte</a>--}}
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            <h4 class="font-weight-bold m-0">Doriam Perez</h4>
-                                            <h6 class="">doriam@gotoperu.com</h6>
-                                            <h4 class="font-weight-bold">(51)980476535</h4>
-                                            <a href="" class="btn btn-outline-g-dark">More about me</a>
+
+                                        <div class="rounded bg-rgba-dark-1 p-4 mt-4">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <img src="{{asset('images/team/doriam.jpg')}}" alt="" class="rounded-circle img-fluid">
+                                                </div>
+                                                <div class="col">
+                                                    <h4 class="font-weight-bold m-0">Doriam Perez</h4>
+                                                    <h6 class="">doriam@gotoperu.com</h6>
+                                                    <h4 class="font-weight-bold">(51)980476535</h4>
+                                                    <button type="button" class="btn btn-outline-g-dark" data-toggle="modal" data-target="#exampleModal">More about me</button>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

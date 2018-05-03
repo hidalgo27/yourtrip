@@ -13115,6 +13115,18 @@ header {
   border-bottom: 3px solid #000000;
 }
 
+.nav-pills .nav-link.resumen.active,
+.nav-pills .show > .nav-link.resumen {
+  color: #fff;
+  background-color: #f9a825;
+}
+
+.nav-link.resumen,
+.nav-link.resumen:hover {
+  background: #6c757d;
+  color: #ffffff;
+}
+
 .modal.left .modal-dialog,
 .modal.right .modal-dialog {
   position: fixed;
