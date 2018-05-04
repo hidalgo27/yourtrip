@@ -595,3 +595,6 @@ header{
 //.modal.right.fade.in .modal-dialog {
 //  right: 0;
 //}
+.overlay-class, .header-video-class, .content-header-class, .content-header-row-class{
+  height: 50vh !important;
+}

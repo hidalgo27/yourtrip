@@ -13161,3 +13161,10 @@ header {
   display: none !important;
 }
 
+.overlay-class,
+.header-video-class,
+.content-header-class,
+.content-header-row-class {
+  height: 50vh !important;
+}
+

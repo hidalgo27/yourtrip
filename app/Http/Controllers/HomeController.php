@@ -41,6 +41,31 @@ class HomeController extends Controller
         return view('home', ['cotizacion'=>$cotizacion, 'usuario'=>$usuario, 'itinerarioss'=>$itinerarioss, 'destinos'=>$destinos, 'hotel'=>$hotel, 'paquete_p'=>$paquete_p, 'idpaquete'=>$idpaquete]);
     }
 
+    public function information($idcotizacion, $idpaquete)
+    {
+
+        $cotizacion = Cotizacion::with(['paquete_cotizaciones'=>function($query)use($idpaquete){$query->where('id',$idpaquete);}])->where('id', $idcotizacion)->get();
+        $paquete_p = PaqueteCotizaciones::with('itinerario_cotizaciones')->where('cotizaciones_id', $idcotizacion)->get();
+        $itinerarioss = ItinerarioCotizaciones::with('itinerario_destinos')->where('paquete_cotizaciones_id', $idpaquete)->get();
+        $usuario = User::get();
+//        $itinerario_destino = ItinerarioDestinos::get();
+
+        $hotel = Proveedor::with('hotel')->where('grupo', 'HOTELS')->get();
+        $destinos = [];
+        foreach ($itinerarioss as $itinerarios){
+            foreach ($itinerarios->itinerario_destinos->where('itinerario_cotizaciones_id',$itinerarios->id) as $destino) {
+//                $destinos[] = ItinerarioDestinos::where('itinerario_cotizaciones_id',$itinerarios->id)->get();
+                if (!in_array($destino->destino,  $destinos))
+                    $destinos[] = $destino->destino;
+            }
+
+        }
+
+
+        return view('information', ['cotizacion'=>$cotizacion, 'usuario'=>$usuario, 'itinerarioss'=>$itinerarioss, 'destinos'=>$destinos, 'hotel'=>$hotel, 'paquete_p'=>$paquete_p, 'idpaquete'=>$idpaquete]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

@@ -19,3 +19,8 @@ Route::get('/coti/{cotizacion}-{paquete}', [
     'uses' => 'HomeController@index',
     'as' => 'home_path',
 ]);
+
+Route::get('/booking_information/{cotizacion}-{paquete}', [
+    'uses' => 'HomeController@information',
+    'as' => 'information_path',
+]);
