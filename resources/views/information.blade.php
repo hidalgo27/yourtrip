@@ -134,8 +134,8 @@
             <div class="container-fluid">
                 <div class="row content-header-row content-header-row-class align-items-center">
                     <div class="col text-center">
-                        <h2 class="text-white display-4">PLAN {{$paquetes->plan}}</h2>
-                        <span class="text-white h3 d-block">{{$paquetes->duracion}} days | ${{$precio_servicio + $precio_hotel_s}}</span>
+                        <h2 class="text-white display-4">BOOKING PROCESS</h2>
+{{--                        <span class="text-white h3 d-block">{{$paquetes->duracion}} days | ${{$precio_servicio + $precio_hotel_s}}</span>--}}
                         <a href="" class="text-white"><i class="fa fa-angle-down fa-4x"></i></a>
 
                         {{--<div class="text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay="0s">--}}
@@ -154,6 +154,77 @@
 
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <div class="row">
+                            <div class="col">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <h3 class="font-weight-bold">Tour/Plan:</h3>
+                                    </div>
+                                    <div class="col">
+                                        <h5 class="text-g-yellow"> {{($paquetes->codigo)}}</h5>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <h3 class="font-weight-bold">Travel Dates:</h3>
+                                    </div>
+                                    <div class="col">
+
+                                        <h5>
+                                            {{date("d F, Y", strtotime($cotizaciones->fecha))}} -
+                                            @php
+                                                $duracion = $paquetes->duracion - 1;
+                                                $fecha = date($cotizaciones->fecha);
+                                                $nueva_fin = strtotime('+'.$duracion.' day' , strtotime($fecha)) ;
+                                                $nueva_fin = date ( 'Y-m-j' , $nueva_fin );
+                                            @endphp
+                                            {{date("d F, Y", strtotime($nueva_fin))}}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <h3 class="font-weight-bold">Price USD:</h3>
+                                    </div>
+                                    <div class="col">
+                                        <h5 class="text-g-yellow"> ${{$precio_servicio + $precio_hotel_s}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+
+                                <div class="row py-3 align-items-center">
+                                    <div class="col">
+                                        <h3 class="font-weight-bold">Destinations:</h3>
+                                    </div>
+                                    <div class="col">
+                                        {{--@foreach($paquete_destinos->where('idpaquetes',$paquetes->id) as $paquete_destino)--}}
+                                        {{--<p class="font-wefont-weight-bold"><i class="fa fa-check"></i> {{ucwords(strtolower($paquete_destino->destinos->nombre))}}</p>--}}
+                                        {{--<a href="{{route('destinations_country_show_path', ['peru-travel', str_replace(' ', '-', strtolower($paquete_destino->destinos->nombre))])}}-tours"><img src="{{asset('images/destinations/destinations/'.str_replace(' ','-', strtolower($paquete_destino->destinos->nombre)).'')}}.jpg" alt="" width="50" height="50" class="rounded-circle" data-toggle="tooltip" data-placement="top" title="{{ucwords(strtolower($paquete_destino->destinos->nombre))}}"></a>--}}
+                                        {{--@endforeach--}}
+
+                                        @foreach($destinos as $destino)
+                                            <a href=""><img src="{{asset('images/destinations/destinations/'.str_replace(' ','-', strtolower($destino)).'')}}.jpg" alt="" width="50" height="50" class="rounded-circle" data-toggle="tooltip" data-placement="top" title="{{ucwords(strtolower($destino))}}"></a>
+                                        @endforeach
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -181,6 +252,9 @@
                                 <div class="col">
                                     <h5 class="font-weight-bold align-middle"><i class="fas fa-id-card h3 float-left mr-2"></i> Personal Information (As it appears in your passport)</h5>
                                     <div class="form-group">
+                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="First Name">
+                                    </div>
+                                    <div class="form-group">
                                         <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Middle Name">
                                     </div>
                                     <div class="form-group">
@@ -192,21 +266,7 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Phone Number">
                                     </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Address Line">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="City">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="State">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Zip / Post Code">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Country">
-                                    </div>
+
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Date of Birth mm/dd/yyyy">
                                     </div>
@@ -219,47 +279,53 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Country of Issue">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mb-5">
                                         <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Expiration Date mm/dd/yyyy">
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row mt-5">
-                                <div class="col">
                                     <h5 class="font-weight-bold align-middle"><i class="fas fa-notes-medical h3 float-left mr-2"></i> Medical or dietary restrictions</h5>
                                     <div class="form-group">
                                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Medical or dietary restrictions"></textarea>
                                     </div>
-                                </div>
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="font-weight-bold align-middle"><i class="fas fa-notes-medical h3 float-left mr-2"></i> Medical or dietary restrictions</h5>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="row btn-group-toggle px-3" data-toggle="buttons">
-                                                <label class="btn btn-sm py-4 col btn-primary active">
-                                                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Purchasing with Goto Peru
-                                                </label>
-                                                <label class="btn btn-sm py-4 col btn-primary">
-                                                    <input type="radio" name="options" id="option2" autocomplete="off"> Purchasing Separately
-                                                </label>
-                                                <label class="btn btn-sm py-4 col btn-primary">
-                                                    <input type="radio" name="options" id="option3" autocomplete="off"> Forego Insurance
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <small id="emailHelp" class="form-text text-muted">* If purchasing travel insurance with Peru for Less, please contact your Travel Advisor for a quote.</small>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
+
+                            {{--<div class="row mt-5">--}}
+                                {{--<div class="col">--}}
+                                    {{--<h5 class="font-weight-bold align-middle"><i class="fas fa-notes-medical h3 float-left mr-2"></i> Medical or dietary restrictions</h5>--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Medical or dietary restrictions"></textarea>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="col">--}}
+                                    {{--<div class="row">--}}
+                                        {{--<div class="col">--}}
+                                            {{--<h5 class="font-weight-bold align-middle"><i class="fas fa-notes-medical h3 float-left mr-2"></i> Medical or dietary restrictions</h5>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="row">--}}
+                                        {{--<div class="col">--}}
+                                            {{--<div class="row btn-group-toggle px-3" data-toggle="buttons">--}}
+                                                {{--<label class="btn btn-sm py-4 col btn-primary active">--}}
+                                                    {{--<input type="radio" name="options" id="option1" autocomplete="off" checked> Purchasing with Goto Peru--}}
+                                                {{--</label>--}}
+                                                {{--<label class="btn btn-sm py-4 col btn-primary">--}}
+                                                    {{--<input type="radio" name="options" id="option2" autocomplete="off"> Purchasing Separately--}}
+                                                {{--</label>--}}
+                                                {{--<label class="btn btn-sm py-4 col btn-primary">--}}
+                                                    {{--<input type="radio" name="options" id="option3" autocomplete="off"> Forego Insurance--}}
+                                                {{--</label>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="row">--}}
+                                        {{--<div class="col">--}}
+                                            {{--<small id="emailHelp" class="form-text text-muted">* If purchasing travel insurance with Peru for Less, please contact your Travel Advisor for a quote.</small>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                         </div>
                     </div>
 
@@ -272,31 +338,16 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="font-weight-bold align-middle"><i class="fas fa-user h3 float-left mr-2"></i> Contact 1</h5>
+                                    <h5 class="font-weight-bold align-middle"><i class="fas fa-user h3 float-left mr-2"></i> Contact</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Full Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Country">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Phone">
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <h5 class="font-weight-bold align-middle"><i class="fas fa-user h3 float-left mr-2"></i> Contact 2</h5>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Full Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Country">
-                                    </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="exampleInputEmail1"  placeholder="Phone">
                                     </div>

@@ -52,6 +52,8 @@
                 <img src="{{asset('images/cusco.jpg')}}" alt="" id="hero-vid">
                 @php
                     $precio_servicio = 0;
+
+                    $precio_servicio1 = 0;
                     $precio_hotel_s = 0;
                     $precio_hotel_d = 0;
                     $precio_hotel_m = 0;
@@ -65,11 +67,14 @@
                                 @foreach($itinerario->itinerario_servicios as $servicio)
                                     @php
                                         if ($servicio->precio_grupo == 0){
-                                            $precio_servicio_g = $servicio->precio * $cotizaciones->nropersonas;
-                                        }else{
                                             $precio_servicio_g = $servicio->precio;
+                                        }elseif($servicio->precio_grupo == 1){
+                                            $precio_servicio_g = $servicio->precio/$cotizaciones->nropersonas;
                                         }
-                                        $precio_servicio = $precio_servicio + $precio_servicio_g;
+
+                                        $precio_servicio = $precio_servicio +$precio_servicio_g;
+                                        $precio_servicio1 .=$precio_servicio_g.'+';
+
                                     @endphp
                                 @endforeach
                             @endforeach
@@ -77,17 +82,17 @@
                                 @foreach($paquetes->paquete_precios as $paquete_precio)
                                     @php
 
-                                        $utilidad_s = $paquete_precio->utilidad_s * $cotizaciones->nropersonas;
-                                        $precio_hotel_s = $precio_hotel_s + ($paquete_precio->precio_s * $paquete_precio->personas_s * ($cotizaciones->duracion - 1)) + $utilidad_s;
+                                        $utilidad_s = $paquete_precio->utilidad_s;
+                                        $precio_hotel_s = $precio_hotel_s + ($paquete_precio->precio_s * ($cotizaciones->duracion - 1)) + $utilidad_s;
 
-                                        $utilidad_d = $paquete_precio->utilidad_d * $cotizaciones->nropersonas;
-                                        $precio_hotel_d = $precio_hotel_d + ($paquete_precio->precio_d * $paquete_precio->personas_d * ($cotizaciones->duracion - 1)) + $utilidad_d;
+                                        $utilidad_d = $paquete_precio->utilidad_d;
+                                        $precio_hotel_d = $precio_hotel_d + (($paquete_precio->precio_d / 2) * ($cotizaciones->duracion - 1)) + $utilidad_d;
 
-                                        $utilidad_m = $paquete_precio->utilidad_m * $cotizaciones->nropersonas;
-                                        $precio_hotel_m = $precio_hotel_m + ($paquete_precio->precio_m * $paquete_precio->personas_m * ($cotizaciones->duracion - 1)) + $utilidad_m;
+                                        $utilidad_m = $paquete_precio->utilidad_m;
+                                        $precio_hotel_m = $precio_hotel_m + (($paquete_precio->precio_m / 2) * ($cotizaciones->duracion - 1)) + $utilidad_m;
 
-                                        $utilidad_t = $paquete_precio->utilidad_t * $cotizaciones->nropersonas;
-                                        $precio_hotel_t = $precio_hotel_t + ($paquete_precio->precio_t * $paquete_precio->personas_t * ($cotizaciones->duracion - 1)) + $utilidad_t;
+                                        $utilidad_t = $paquete_precio->utilidad_t;
+                                        $precio_hotel_t = $precio_hotel_t + (($paquete_precio->precio_t / 3) * ($cotizaciones->duracion - 1)) + $utilidad_t;
 
                                     @endphp
                                 @endforeach
@@ -95,6 +100,8 @@
                         @endforeach
                     @endif
                 @endforeach
+
+{{--                {{ $precio_servicio}} - {{$precio_hotel_d}} / {{$precio_servicio + $precio_hotel_d}}--}}
 
 
 
@@ -135,7 +142,7 @@
                 <div class="row content-header-row align-items-center">
                     <div class="col text-center">
                         <h2 class="text-white display-4">PLAN {{$paquetes->plan}}</h2>
-                        <span class="text-white h3 d-block">{{$paquetes->duracion}} days | ${{$precio_servicio + $precio_hotel_s}}</span>
+                        <span class="text-white h3 d-block">{{$paquetes->duracion}} days | ${{ceil(ceil($precio_servicio + $precio_hotel_s))}}</span>
                         <a href="" class="text-white"><i class="fa fa-angle-down fa-4x"></i></a>
 
                         {{--<div class="text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay="0s">--}}
@@ -194,13 +201,13 @@
                     @if($paquetes_p->id == $paquetes->id)
                     <div class="col-auto">
                         <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}" class="bg-g-dark text-white py-3 px-4 rounded-circle h2 font-weight-bold d-block">PLAN {{$paquetes_p->plan}}
-                            {{--<small class="d-block h5 text-center text-g-yellow">${{$precio_servicio + $precio_hotel_s}}</small>--}}
+                            {{--<small class="d-block h5 text-center text-g-yellow">${{ceil($precio_servicio + $precio_hotel_s)}}</small>--}}
                         </a>
                     </div>
                     @else
                     <div class="col-auto">
                         <a href="{{route('home_path', [$paquetes_p->cotizaciones_id, $paquetes_p->id])}}" class="bg-light text-secondary py-3 px-4 rounded-circle h2 font-weight-bold d-block">PLAN {{$paquetes_p->plan}}
-                            {{--<small class="d-block h5 text-center">${{$precio_servicio + $precio_hotel_s}}</small>--}}
+                            {{--<small class="d-block h5 text-center">${{ceil($precio_servicio + $precio_hotel_s)}}</small>--}}
                         </a>
                     </div>
                     @endif
@@ -303,7 +310,7 @@
                                                 </div>
                                                 {{--<p class="text-primary h4 font-weight-bold">10 Day</p>--}}
                                                 <p class="py-2 m-0 text-center">
-                                                    <span class="text-info font-weight-bold display-4">${{$precio_servicio + $precio_hotel_s}}</span>
+                                                    <span class="text-info font-weight-bold display-4">${{ceil($precio_servicio + $precio_hotel_s)}}</span>
                                                     <small>USD</small></p>
                                                 <p class="text-secondary h5 font-weight-bold"><strong>Proposals:</strong>
                                                 @foreach($paquete_p->sortBy('plan') as $paquetes_p)
@@ -554,16 +561,16 @@
                                                     <tbody>
                                                     <tr>
                                                         <td class="{{$hide_s}}">
-                                                            <sup>$</sup> {{$precio_servicio + $precio_hotel_s}}
+                                                            <sup>$</sup> {{ceil($precio_servicio + $precio_hotel_s)}}
                                                         </td>
                                                         <td class="{{$hide_d}}">
-                                                            <sup>$</sup> {{$precio_servicio + $precio_hotel_d}}
+                                                            <sup>$</sup> {{ceil($precio_servicio + $precio_hotel_d)}}
                                                         </td>
                                                         <td class="{{$hide_m}}">
-                                                            <sup>$</sup> {{$precio_servicio + $precio_hotel_m}}
+                                                            <sup>$</sup> {{ceil($precio_servicio + $precio_hotel_m)}}
                                                         </td>
                                                         <td class="{{$hide_t}}">
-                                                            <sup>$</sup> {{$precio_servicio + $precio_hotel_t}}
+                                                            <sup>$</sup> {{ceil($precio_servicio + $precio_hotel_t)}}
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -638,7 +645,7 @@
                                                         </div>
                                                         {{--<p class="text-primary h4 font-weight-bold">10 Day</p>--}}
                                                         <p class="py-2 m-0 text-center">
-                                                            <span class="text-info font-weight-bold display-4">${{$precio_servicio + $precio_hotel_s}}</span>
+                                                            <span class="text-info font-weight-bold display-4">${{ceil($precio_servicio + $precio_hotel_s)}}</span>
                                                             <small>USD</small></p>
                                                         <p class="text-secondary h5 font-weight-bold"><strong>Proposals:</strong>
                                                             @foreach($paquete_p->sortBy('plan') as $paquetes_p)
