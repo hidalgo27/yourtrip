@@ -103,6 +103,34 @@
 
 {{--                {{ $precio_servicio}} - {{$precio_hotel_d}} / {{$precio_servicio + $precio_hotel_d}}--}}
 
+                @php
+                    $precio_total_s =  $precio_servicio + $precio_hotel_s;
+                    $precio_total_d =  $precio_servicio + $precio_hotel_d;
+                    $precio_total_m =  $precio_servicio + $precio_hotel_m;
+                    $precio_total_t =  $precio_servicio + $precio_hotel_t;
+
+                    if ($paquete_precio->personas_s == 0){
+                        $hide_s = 'd-none';
+                    }else{
+                        $hide_s = '';
+                    }
+                    if ($paquete_precio->personas_d == 0){
+                        $hide_d = 'd-none';
+                    }else{
+                        $hide_d = '';
+                    }
+                    if ($paquete_precio->personas_m == 0){
+                        $hide_m = 'd-none';
+                    }else{
+                        $hide_m = '';
+                    }
+                    if ($paquete_precio->personas_t == 0){
+                        $hide_t = 'd-none';
+                    }else{
+                        $hide_t = '';
+                    }
+                @endphp
+
 
 
                 <div class="header-expedia-card col-md-5 col-lg-5 col-xl-3 text-white rounded bg-rgba-dark p-3">
@@ -142,7 +170,13 @@
                 <div class="row content-header-row align-items-center">
                     <div class="col text-center">
                         <h2 class="text-white display-4">PLAN {{$paquetes->plan}}</h2>
-                        <span class="text-white h3 d-block">{{$paquetes->duracion}} days | ${{ceil(ceil($precio_servicio + $precio_hotel_s))}}</span>
+                        <p class="text-white h3 d-block">{{$paquetes->duracion}} days |
+                            <span class="{{$hide_s}}">${{ceil($precio_total_s)}}</span>
+                            <span class="{{$hide_d}}">${{ceil($precio_total_d)}}</span>
+                            <span class="{{$hide_m}}">${{ceil($precio_total_m)}}</span>
+                            <span class="{{$hide_t}}">${{ceil($precio_total_t)}}</span>
+
+                        </p>
                         <a href="" class="text-white"><i class="fa fa-angle-down fa-4x"></i></a>
 
                         {{--<div class="text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay="0s">--}}
@@ -310,7 +344,11 @@
                                                 </div>
                                                 {{--<p class="text-primary h4 font-weight-bold">10 Day</p>--}}
                                                 <p class="py-2 m-0 text-center">
-                                                    <span class="text-info font-weight-bold display-4">${{ceil($precio_servicio + $precio_hotel_s)}}</span>
+{{--                                                    <span class="text-info font-weight-bold display-4">${{ceil($precio_servicio + $precio_hotel_s)}}</span>--}}
+                                                    <span class="{{$hide_s}} text-info font-weight-bold display-4">${{ceil($precio_total_s)}}</span>
+                                                    <span class="{{$hide_d}} text-info font-weight-bold display-4">${{ceil($precio_total_d)}}</span>
+                                                    <span class="{{$hide_m}} text-info font-weight-bold display-4">${{ceil($precio_total_m)}}</span>
+                                                    <span class="{{$hide_t}} text-info font-weight-bold display-4">${{ceil($precio_total_t)}}</span>
                                                     <small>USD</small></p>
                                                 <p class="text-secondary h5 font-weight-bold"><strong>Proposals:</strong>
                                                 @foreach($paquete_p->sortBy('plan') as $paquetes_p)
@@ -523,32 +561,6 @@
                                         <div class="card border-secondary">
                                             <p class="card-header bg-dark text-g-yellow">{{$paquete_precio->estrellas}} star hotel category </p>
                                             <div class="card-body p-0">
-                                                @php
-                                                    if ($paquete_precio->personas_s == 0){
-                                                        $hide_s = 'd-none';
-                                                    }else{
-                                                        $hide_s = '';
-                                                    }
-
-                                                    if ($paquete_precio->personas_d == 0){
-                                                        $hide_d = 'd-none';
-                                                    }else{
-                                                        $hide_d = '';
-                                                    }
-
-                                                    if ($paquete_precio->personas_m == 0){
-                                                        $hide_m = 'd-none';
-                                                    }else{
-                                                        $hide_m = '';
-                                                    }
-
-                                                    if ($paquete_precio->personas_t == 0){
-                                                        $hide_t = 'd-none';
-                                                    }else{
-                                                        $hide_t = '';
-                                                    }
-
-                                                @endphp
                                                 <table class="table m-0">
                                                     <thead class="title-header bg-light">
                                                     <tr>
@@ -561,16 +573,16 @@
                                                     <tbody>
                                                     <tr>
                                                         <td class="{{$hide_s}}">
-                                                            <sup>$</sup> {{ceil($precio_servicio + $precio_hotel_s)}}
+                                                            <sup>$</sup> {{ceil($precio_total_s)}}
                                                         </td>
                                                         <td class="{{$hide_d}}">
-                                                            <sup>$</sup> {{ceil($precio_servicio + $precio_hotel_d)}}
+                                                            <sup>$</sup> {{ceil($precio_total_d)}}
                                                         </td>
                                                         <td class="{{$hide_m}}">
-                                                            <sup>$</sup> {{ceil($precio_servicio + $precio_hotel_m)}}
+                                                            <sup>$</sup> {{ceil($precio_total_m)}}
                                                         </td>
                                                         <td class="{{$hide_t}}">
-                                                            <sup>$</sup> {{ceil($precio_servicio + $precio_hotel_t)}}
+                                                            <sup>$</sup> {{ceil($precio_total_t)}}
                                                         </td>
                                                     </tr>
                                                     </tbody>
