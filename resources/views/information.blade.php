@@ -283,7 +283,7 @@
 
     <section class="bg-white">
         <div class="container">
-            <form id="r_form" role="form">
+            <form id="r_form" role="form" method="post">
                 {{csrf_field()}}
                 <div class="row">
                     <div class="col">
@@ -294,40 +294,40 @@
                                     <div class="col">
                                         <h5 class="font-weight-bold align-middle"><i class="fas fa-id-card h3 float-left mr-2"></i> Personal Information (As it appears in your passport)</h5>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="r_first"  placeholder="First Name">
+                                            <input type="text" class="form-control" id="r_first"  placeholder="First Name" value="{{ucwords(strtolower($cliente->cliente->nombres))}}">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="r_middle"  placeholder="Middle Name">
+                                            <input type="text" class="form-control" id="r_middle"  placeholder="Middle Name" value="{{ucwords(strtolower($cliente->cliente->apellidos))}}">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="r_last"  placeholder="Last Name">
+                                            <input type="text" class="form-control" id="r_last"  placeholder="Last Name" value="{{ucwords(strtolower($cliente->cliente->apellidos))}}">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="r_email"  placeholder="Email">
+                                            <input type="text" class="form-control" id="r_email"  placeholder="Email" value="{{ucwords(strtolower($cliente->cliente->email))}}">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="r_phone"  placeholder="Phone Number">
+                                            <input type="text" class="form-control" id="r_phone"  placeholder="Phone Number" value="{{ucwords(strtolower($cliente->cliente->telefono))}}">
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="r_birth"  placeholder="Date of Birth mm/dd/yyyy">
+                                            <input type="text" class="form-control" id="r_birth"  placeholder="Date of Birth mm/dd/yyyy" value="{{ucwords(strtolower($cliente->cliente->fechanacimiento))}}">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <h5 class="font-weight-bold"><i class="fas fa-address-card h3 float-left mr-2"></i> Passport Information:</h5>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="r_passport"  placeholder="Passport Number">
+                                            <input type="text" class="form-control" id="r_passport"  placeholder="Passport Number" value="{{ucwords(strtolower($cliente->cliente->pasaporte))}}">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="r_issue"  placeholder="Country of Issue">
+                                            <input type="text" class="form-control" id="r_issue"  placeholder="Country of Issue" value="{{ucwords(strtolower($cliente->cliente->emision))}}">
                                         </div>
                                         <div class="form-group mb-5">
-                                            <input type="text" class="form-control" id="r_expiration"  placeholder="Expiration Date mm/dd/yyyy">
+                                            <input type="text" class="form-control" id="r_expiration"  placeholder="Expiration Date mm/dd/yyyy" value="{{ucwords(strtolower($cliente->cliente->expiracion))}}">
                                         </div>
 
                                         <h5 class="font-weight-bold align-middle"><i class="fas fa-notes-medical h3 float-left mr-2"></i> Medical or dietary restrictions</h5>
                                         <div class="form-group">
-                                            <textarea class="form-control" id="r_restriction" rows="3" placeholder="Medical or dietary restrictions"></textarea>
+                                            <textarea class="form-control" id="r_restriction" rows="3" placeholder="Medical or dietary restrictions">{{ucwords(strtolower($cliente->cliente->restricciones))}}</textarea>
                                         </div>
 
                                     </div>
@@ -497,6 +497,7 @@
                 var s_issue = $('#r_issue').val();
                 var s_expiration = $('#r_expiration').val();
                 var s_restriction = $('#r_restriction').val();
+                var s_idcliente = "{{$cliente->cliente->id}}";
 
 
                 if (filter.test(s_email)){
@@ -517,20 +518,22 @@
 
                 if(sendMail == "true"){
                     var datos = {
-
-                        "txt_accommodation" : s_accommodation,
-                        "txt_number" : s_number,
-                        "txt_duration" : s_duration,
-                        "txt_date" : s_date,
-                        "txt_tel" : s_tel,
-                        "txt_name" : s_name,
+                        "txt_id" : s_idcliente,
+                        "txt_first" : s_first,
+                        "txt_middle" : s_middle,
+                        "txt_last" : s_last,
                         "txt_email" : s_email,
-                        "txt_comment" : s_comment,
+                        "txt_phone" : s_phone,
+                        "txt_birth" : s_birth,
+                        "txt_passport" : s_passport,
+                        "txt_issue" : s_issue,
+                        "txt_expiration" : s_expiration,
+                        "txt_restriction" : s_restriction,
 
                     };
                     $.ajax({
                         data:  datos,
-{{--                        url:   "{{route('design_path')}}",--}}
+                        url:   "{{route('s_information_path')}}",
                         type:  'post',
 
                         beforeSend: function () {
