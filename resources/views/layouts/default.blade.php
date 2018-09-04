@@ -38,7 +38,7 @@
                             <img src="{{asset('images/team/doriam.jpg')}}" alt=""  class="rounded img-fluid">
                             <h4 class="font-weight-bold m-0">{{$usuarios->name}}</h4>
                             <a href="">{{$usuarios->email}}</a>
-                            <h4 class="font-weight-bold">(51)980476535</h4>
+                            <h4 class="font-weight-bold">(+51)84262555</h4>
                         </div>
                     </div>
                     <div class="col">

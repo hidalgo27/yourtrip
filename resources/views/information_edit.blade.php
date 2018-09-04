@@ -131,6 +131,8 @@
                     }
                 @endphp
 
+
+
                 <div class="header-expedia-card col-md-5 col-lg-5 col-xl-3 text-white rounded bg-rgba-dark p-3">
                     <div class="row">
                         @foreach($usuario->where('id', $cotizaciones->users_id) as $usuarios)
@@ -154,12 +156,12 @@
 
             <div class="header-expedia p-3 w-100 d-none d-lg-inline text-white">
                 {{--<p class="text-white h6"><span class="bg-g-green p-1 rounded-circle px-3 text-white">1</span> Share your travel plans <span class="bg-g-yellow p-1 rounded-circle px-3 text-white ml-5">2</span> Receive a customize itinerary and quote <span class="bg-g-dark p-1 rounded-circle px-3 text-white ml-5">3</span> Discover the best of Peru with GOTOPERU</p>--}}
-                {{--@foreach($cotizaciones->cotizaciones_cliente as $cliente)--}}
+                @foreach($cotizaciones->cotizaciones_cliente as $cliente)
 
                     <h5 class="font-weight-bold text-g-yellow">Hi!</h5>
-                    <h1 class="font-weight-bold display-4">{{ucwords(strtolower($cliente->nombres))}}</h1>
+                    <h1 class="font-weight-bold display-4">{{ucwords(strtolower($cliente->cliente->nombres))}}</h1>
                     <h4 class="font-weight-bold text-g-yellow">This is {{ucwords(strtolower($usuarios->name))}} i will be happy to design together a vacation </h4>
-                {{--@endforeach--}}
+                @endforeach
                 {{--<h4 class="font-weight-bold">I'm your personal Travel Advisor</h4>--}}
             </div>
         </div>
@@ -266,14 +268,11 @@
             </div>
         </div>
     </section>
+
+
     <section class="bg-white">
         <div class="container">
             <div class="row">
-                @if($confirm=='c')
-                <div class="col">
-                    <b class="text-22 text-success">Data sent correctly</b>
-                </div>
-                @endif
                 <div class="col">
                     <h2 class="pt-5 display-4 font-weight-bold text-g-green">Booking Information</h2>
                     <p class="lead">Thank you for choosing Latin America For Less! Your Travel Advisor is ready to book your trip but first we need a few details. Please complete the short form below and our team will start to arrange your once-in-a-lifetime vacation. If you have any questions you can contact us at any time: <b>1-785-345-2324 or travel@gotoperu.com</b></p>
@@ -284,190 +283,19 @@
 
     <section class="bg-white">
         <div class="container">
-            <form id="form_nuevo_pqt" name="form_nuevo_pqt" role="form" action="{{route('s_information_path')}}" method="post" enctype="multipart/form-data" >
+            <form id="r_form" role="form" method="post">
                 {{csrf_field()}}
                 <div class="row">
-                    <div class="col">
-                        <div class="card bg-light">
-                            <h2 class="card-header h1 font-weight-bold text-g-dark">Featured</h2>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="font-weight-bold align-middle"><i class="fas fa-id-card h3 float-left mr-2"></i> Personal Information (As it appears in your passport)</h5>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Nacionality</div>
-                                                </div>
-                                                <input type="text" class="form-control" id="r_nacionality" name="r_nacionality" value="{{ucwords(strtolower($cliente->nacionalidad))}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">First Name</div>
-                                                </div>
-                                                <input type="text" class="form-control" id="r_first" name="r_first" value="{{ucwords(strtolower($cliente->nombres))}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Last Name</div>
-                                                </div>
-                                                <input type="text" class="form-control" id="r_last" name="r_last" value="{{ucwords(strtolower($cliente->apellidos))}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Gender</div>
-                                                </div>
-                                                <input type="text" class="form-control" id="r_genero" name="r_genero" value="{{ucwords(strtolower($cliente->sexo))}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Email</div>
-                                                </div>
-                                                <input type="text" class="form-control" id="r_email" name="r_email" value="{{ucwords(strtolower($cliente->email))}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Phone Number</div>
-                                                </div>
-                                                <input type="text" class="form-control" id="r_phone" name="r_phone" value="{{ucwords(strtolower($cliente->telefono))}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Date birth</div>
-                                                </div>
-                                                <input type="date" class="form-control" id="r_birth" name="r_birth" value="{{ucwords(strtolower($cliente->fechanacimiento))}}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <h5 class="font-weight-bold"><i class="fas fa-address-card h3 float-left mr-2"></i> Passport Information:</h5>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Passport Number</div>
-                                                </div>
-                                                <input type="text" class="form-control" id="r_passport" name="r_passport" value="{{ucwords(strtolower($cliente->pasaporte))}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend">
-                                                    <div class="input-group-text">Date Expiration</div>
-                                                </div>
-                                                <input type="date" class="form-control" id="r_expiration" name="r_expiration" value="{{ucwords(strtolower($cliente->expiracion))}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="row">
-                                                <div class="col-9">
-                                                    <div class="input-group mb-2">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">Passport Photo</div>
-                                                        </div>
-                                                        <input type="file" class="form-control" id="r_passport_foto" name="r_passport_foto">
-                                                    </div>
-                                                </div>
-                                                <div class="col-3">
-                                                    @if (Storage::disk('passport_photo')->has($cliente->pasaporte_imagen))
-                                                        <img src="{{route('storage_get_imagen_path',$cliente->pasaporte_imagen)}}" class="img-fluid" alt="Passport photo" width="100" height="100">
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <h5 class="font-weight-bold align-middle"><i class="fas fa-notes-medical h3 float-left mr-2"></i> Medical or dietary restrictions</h5>
-                                        <div class="form-group">
-                                            <textarea class="form-control" id="r_restriction" name="r_restriction" rows="3" placeholder="Medical or dietary restrictions">{{ucwords(strtolower($cliente->restricciones))}}</textarea>
-                                        </div>
-                                    </div>
+                    <div class="col-3 ">
+                        <div class="row text-center border dark">
+                            <div class="col-12">
+                                <div class="circulo ">
+                                    <b class="text-warning text-45">70%</b>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col">
-                        <div class="card bg-light">
-                            <h2 class="card-header h1 font-weight-bold text-g-dark">Contact person in case of emergency</h2>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="font-weight-bold align-middle"><i class="fas fa-user h3 float-left mr-2"></i> Contact</h5>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="r_full" name="r_contact"  placeholder="Full Name" value="{{ucwords(strtolower($cliente->contact))}}">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="r_contact" name="r_contact_phone"  placeholder="Phone" value="{{ucwords(strtolower($cliente->contact_telefono))}}">
-                                        </div>
-                                    </div>
-                                </div>
-
+                            <div class="col-12">
+                                <a href="#!"><b class="text-primary text-22">Freddy silva <i class="fas fa-user-cog"></i></b></a>
                             </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col">
-                        <div class="card bg-light">
-                            <h2 class="card-header h1 font-weight-bold text-g-dark">Terms & Conditions</h2>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <p class="text-danger">** In order to complete your booking you must scroll to the bottom of this page and select "Agree" to the terms and conditions</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="condition-overflow card p-3">
-                                            <p>By booking or participating in a tour and any related products or services (a “Tour”) with G Adventures Inc. (“G Adventures” or the “Tour Operator”), you (“you”) agree to these Terms & Conditions (the “Terms”).</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolorum impedit incidunt ipsum iusto molestias, nam nobis omnis sapiente ut. Ad alias autem corporis dolore obcaecati odit quasi suscipit temporibus.</p>
-                                            <ul>
-                                                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab assumenda consectetur est facilis illum inventore modi neque officia quia sapiente? Consequatur dolorum eum fugit labore quos rem repellat suscipit tenetur!</li>
-                                            </ul>
-                                            <h3>1. THE BOOKING CONTRACT</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid consequuntur dolorem doloribus fuga magnam magni nam nesciunt officia quasi! Aliquid architecto deleniti ea et incidunt laudantium qui. Nihil, sunt!</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col">
-                        <div class="form-check text-center">
-                            <input type="checkbox" class="form-check-input input-lg r_confirm" id="r_confirm" style="width: 20px; height: 20px;" value="true">
-                            <label class="form-check-label font-weight-bold h3 px-2 r_confirm_2" for="r_confirm" id="r_confirm_2">I have read and agree to the Terms and Conditions.</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col">
-                        <div class="form-check text-center">
-                            <input type="hidden" name="estado" value="{{$estado}}">
-                            <input type="hidden" name="r_id" value="{{$cliente->id}}">
-                            <input type="hidden" name="cotizacion_id" value="{{$idcotizacion}}">
-                            <input type="hidden" name="pqt_id" value="{{$idpaquete}}">
-                            <button type="submit" class="btn btn-lg btn-g-yellow btn-block text-white font-weight-bold" onclick="validar()" id="r_submit">Send</button>
                         </div>
                     </div>
                 </div>
@@ -484,33 +312,6 @@
 
     @push('scripts')
         <script>
-            function validar(){
-                $('#form_nuevo_pqt').submit(function() {
-//                    if($('#txt_name1').val()==''){
-//                        $('#txt_name1').focus();
-//                        swal(
-//                            'Oops...',
-//                            'Ingrese el nombre!',
-//                            'error'
-//                        )
-//                        return false;
-//                    }
-                    var check=0;
-                    if($('#r_confirm').prop('checked') ) {
-                        check=1;
-                    }
-                    console.log('check:'+check);
-                    if(check==0) {
-                        $('#r_confirm_2').css("color", "#FF0000");
-//                        swal(
-//                            'Oops...',
-//                            'Check terms and conditions',
-//                            'warning'
-//                        )
-                        return false;
-                    }
-                });
-            }
             function register(){
                 $.ajaxSetup({
                     headers: {
@@ -547,9 +348,7 @@
                 var s_issue = $('#r_issue').val();
                 var s_expiration = $('#r_expiration').val();
                 var s_restriction = $('#r_restriction').val();
-                var s_contact= $('#r_full').val();
-                var s_contact_telefono = $('#r_contact').val();
-                var s_idcliente = "{{$cliente->id}}";
+                var s_idcliente = "{{$cliente->cliente->id}}";
 
 
                 if (filter.test(s_email)){
@@ -581,8 +380,7 @@
                         "txt_issue" : s_issue,
                         "txt_expiration" : s_expiration,
                         "txt_restriction" : s_restriction,
-                        "txt_contact" : s_contact,
-                        "txt_contact_telefono" : s_contact_telefono,
+
                     };
                     $.ajax({
                         data:  datos,
