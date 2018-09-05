@@ -317,81 +317,97 @@
                                     $completo='Complete';
                                 @endphp
                             @endif
-                            <div class="card">
-                                <div class="card-body">
+                            <div class="col">
+                                <div class="row">
                                     <div class="col-12">
                                         <div class="circulo">
                                             <img src="{{asset('images/logos/logo-ave-gotoperu.png')}}" alt="" class="img-fluid">
-                                            <b class="{{$color}} text-22">{{$completo}}</b>
+                                            @if($total==100)
+                                                <b class="{{$color}} text-22">{{$completo}}</b>
+                                            @else
+                                            <div class="row pt-1 px-3">
+                                                <div class="col">
+                                                    <div class="progress ">
+                                                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{$total}}%" aria-valuenow="{{$total}}" aria-valuemin="0" aria-valuemax="100">{{$total}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
+                                    <div class="col-12 text-center ">
+                                        <b class="text-g-dark text-22">
+                                            @if(trim($cotizacion_cliente->cliente->nombres)=='')
+                                                Pax {{$nro_pax}}
+                                            @else
+                                                {{$cotizacion_cliente->cliente->nombres}}, {{$cotizacion_cliente->cliente->apellidos}}
+                                            @endif
+                                        </b>
+                                    </div>
                                     <div class="col-12">
-                                        <p>
-                                            <b class="text-primary text-22">
-                                                @if(trim($cotizacion_cliente->cliente->nombres)=='')
-                                                    Pax {{$nro_pax}}
-                                                @else
-                                                    {{$cotizacion_cliente->cliente->nombres}}, {{$cotizacion_cliente->cliente->apellidos}}
-                                                @endif
-                                            </b>
-                                        </p>
-                                        <a class="btn btn-primary" href="{{route('information_path',[$idcotizacion,$idpaquete,$cotizacion_cliente->cliente->id,1,'s'])}}">
-                                            Fill Information</b>
-                                        </a>
-                                        @if($cotizacion_cliente->estado==0)
-                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal_pedir_info_{{$cotizacion_cliente->cliente->id}}">
-                                            Request information
-                                        </button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="Modal_pedir_info_{{$cotizacion_cliente->cliente->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <form id="ask_request_{{$cotizacion_cliente->cliente->id}}" action="{{route('ask_information_path')}}" method="post">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLongTitle">Request Information</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="col-auto">
-                                                                <div class="input-group mb-2">
-                                                                    <div class="input-group-prepend">
-                                                                        <div class="input-group-text">Name</div>
+                                        <div class="row p-x-0 m-x-0">
+                                            <div class="col-6 text-right">
+                                                <a class="btn btn-warning btn-block" href="{{route('information_path',[$idcotizacion,$idpaquete,$cotizacion_cliente->cliente->id,1,'s'])}}">
+                                                    Fill Information</b>
+                                                </a>
+                                            </div>
+                                            <div class="col-6 text-left">
+                                                @if($cotizacion_cliente->estado==0)
+                                                    <button type="button" class="btn btn-unset btn-block" data-toggle="modal" data-target="#Modal_pedir_info_{{$cotizacion_cliente->cliente->id}}">
+                                                        Request information
+                                                    </button>
+                                                    <div class="modal fade" id="Modal_pedir_info_{{$cotizacion_cliente->cliente->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <form id="ask_request_{{$cotizacion_cliente->cliente->id}}" action="{{route('ask_information_path')}}" method="post">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLongTitle">Request Information</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
                                                                     </div>
-                                                                    <input type="text" class="form-control" id="r_name" name="r_name">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-auto">
-                                                                <div class="input-group mb-2">
-                                                                    <div class="input-group-prepend">
-                                                                        <div class="input-group-text">Email</div>
+                                                                    <div class="modal-body">
+                                                                        <div class="col-auto">
+                                                                            <div class="input-group mb-2">
+                                                                                <div class="input-group-prepend">
+                                                                                    <div class="input-group-text">Name</div>
+                                                                                </div>
+                                                                                <input type="text" class="form-control" id="r_name" name="r_name">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-auto">
+                                                                            <div class="input-group mb-2">
+                                                                                <div class="input-group-prepend">
+                                                                                    <div class="input-group-text">Email</div>
+                                                                                </div>
+                                                                                <input type="text" class="form-control" id="r_email" name="r_email">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-auto">
+                                                                            <b id="response_{{$cotizacion_cliente->cliente->id}}" class="text-22"></b>
+                                                                        </div>
                                                                     </div>
-                                                                    <input type="text" class="form-control" id="r_email" name="r_email">
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="estado" value="0">
+                                                                        <input type="hidden" name="cotizacion_id" value="{{$idcotizacion}}">
+                                                                        <input type="hidden" name="pqt_id" value="{{$idpaquete}}">
+                                                                        <input type="hidden" name="cliente_id" value="{{$cotizacion_cliente->cliente->id}}">
+                                                                        {{csrf_field()}}
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        <button type="button" class="btn btn-primary" onclick="enviar_ask_request('{{$cotizacion_cliente->cliente->id}}')">Send</button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-auto">
-                                                                <b id="response_{{$cotizacion_cliente->cliente->id}}" class="text-22"></b>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="estado" value="0">
-                                                            <input type="hidden" name="cotizacion_id" value="{{$idcotizacion}}">
-                                                            <input type="hidden" name="pqt_id" value="{{$idpaquete}}">
-                                                            <input type="hidden" name="cliente_id" value="{{$cotizacion_cliente->cliente->id}}">
-                                                            {{csrf_field()}}
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary" onclick="enviar_ask_request('{{$cotizacion_cliente->cliente->id}}')">Send</button>
+                                                            </form>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                {{--@else--}}
+                                                    {{--<button type="button" class="btn btn-unset" data-toggle="modal" data-target="#Modal_pedir_info_{{$cotizacion_cliente->cliente->id}}" readonly="readonly">--}}
+                                                        {{--Request information--}}
+                                                    {{--</button>--}}
+                                                @endif
                                             </div>
                                         </div>
-                                        @else
-                                            <button type="button" class="btn btn-unset" data-toggle="modal" data-target="#Modal_pedir_info_{{$cotizacion_cliente->cliente->id}}" readonly="readonly">
-                                                Request information
-                                            </button>
-                                        @endif
+
                                     </div>
                                 </div>
                             </div>
