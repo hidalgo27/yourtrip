@@ -1,7 +1,5 @@
 @extends('layouts.default')
-
 @section('content')
-
     <section class="header-video header-video-class d-none d-md-block">
         <div id="title" class="text-white">
             <div class="container-fluid">
@@ -28,6 +26,10 @@
                     $precio_hotel_d = 0;
                     $precio_hotel_m = 0;
                     $precio_hotel_t = 0;
+                    $hide_s='';
+                    $hide_d='';
+                    $hide_m='';
+                    $hide_t='';
                 @endphp
                 @foreach($cotizacion as $cotizaciones)
                     @if(isset($cotizaciones))
@@ -41,19 +43,20 @@
                                         }elseif($servicio->precio_grupo == 1){
                                             $precio_servicio_g = $servicio->precio/$cotizaciones->nropersonas;
                                         }
-
                                         $precio_servicio = $precio_servicio +$precio_servicio_g;
                                         $precio_servicio1 .=$precio_servicio_g.'+';
-
                                     @endphp
                                 @endforeach
                             @endforeach
-
                             @foreach($paquetes->paquete_precios as $paquete_precio)
                                 @if($paquete_precio->personas_s>0)
                                     @php
                                         $utilidad_s = $paquete_precio->utilidad_s;
                                         $precio_hotel_s = $precio_hotel_s + ($paquete_precio->precio_s * ($cotizaciones->duracion - 1)) + $utilidad_s;
+                                    @endphp
+                                @elseif($paquete_precio->personas_s==0)
+                                    @php
+                                        $hide_s = 'd-none';
                                     @endphp
                                 @endif
                                 @if($paquete_precio->personas_d>0)
@@ -61,11 +64,19 @@
                                         $utilidad_d = $paquete_precio->utilidad_d;
                                         $precio_hotel_d = $precio_hotel_d + (($paquete_precio->precio_d/2) * ($cotizaciones->duracion - 1)) + $utilidad_d;
                                     @endphp
+                                @elseif($paquete_precio->personas_d==0)
+                                    @php
+                                        $hide_d = 'd-none';
+                                    @endphp
                                 @endif
                                 @if($paquete_precio->personas_m>0)
                                     @php
                                         $utilidad_m = $paquete_precio->utilidad_m;
                                         $precio_hotel_m = $precio_hotel_m + (($paquete_precio->precio_m/2) * ($cotizaciones->duracion - 1)) + $utilidad_m;
+                                    @endphp
+                                @elseif($paquete_precio->personas_m==0)
+                                    @php
+                                        $hide_m = 'd-none';
                                     @endphp
                                 @endif
                                 @if($paquete_precio->personas_t>0)
@@ -73,44 +84,23 @@
                                         $utilidad_t = $paquete_precio->utilidad_t;
                                         $precio_hotel_t = $precio_hotel_t + (($paquete_precio->precio_t/3) * ($cotizaciones->duracion - 1)) + $utilidad_t;
                                     @endphp
+                                @elseif($paquete_precio->personas_t==0)
+                                    @php
+                                        $hide_t = 'd-none';
+                                    @endphp
                                 @endif
+
                             @endforeach
                         @endforeach
                     @endif
                 @endforeach
-
                 {{--                {{ $precio_servicio}} - {{$precio_hotel_d}} / {{$precio_servicio + $precio_hotel_d}}--}}
-
                 @php
                     $precio_total_s =  $precio_servicio + $precio_hotel_s;
                     $precio_total_d =  $precio_servicio + $precio_hotel_d;
                     $precio_total_m =  $precio_servicio + $precio_hotel_m;
                     $precio_total_t =  $precio_servicio + $precio_hotel_t;
-
-                    if ($paquete_precio->personas_s == 0){
-                        $hide_s = 'd-none';
-                    }else{
-                        $hide_s = '';
-                    }
-                    if ($paquete_precio->personas_d == 0){
-                        $hide_d = 'd-none';
-                    }else{
-                        $hide_d = '';
-                    }
-                    if ($paquete_precio->personas_m == 0){
-                        $hide_m = 'd-none';
-                    }else{
-                        $hide_m = '';
-                    }
-                    if ($paquete_precio->personas_t == 0){
-                        $hide_t = 'd-none';
-                    }else{
-                        $hide_t = '';
-                    }
                 @endphp
-
-
-
                 <div class="header-expedia-card col-md-5 col-lg-5 col-xl-3 text-white rounded bg-rgba-dark p-3">
                     <div class="row">
                         @foreach($usuario->where('id', $cotizaciones->users_id) as $usuarios)
