@@ -313,7 +313,7 @@
                                         <div class="col-auto">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text"><i class="fas fa-user"></i></div>
+                                                    <div class="input-group-text"><i class="far fa-user"></i></div>
                                                 </div>
                                                 <input type="text" class="form-control" id="r_last" name="r_last" value="{{ucwords(strtolower($cliente->apellidos))}}" placeholder="Last Name">
                                             </div>
@@ -321,9 +321,13 @@
                                         <div class="col-auto">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text"><i class="fas fa-genderless"></i></div>
+                                                    <div class="input-group-text"><i class="fas fa-dot-circle"></i></div>
                                                 </div>
-                                                <input type="text" class="form-control" id="r_genero" name="r_genero" value="{{ucwords(strtolower($cliente->sexo))}}" placeholder="Gender">
+                                                <select class="form-control" name="r_genero" id="r_genero">
+                                                    <option value="Male" @if($cliente->sexo=='Male'){{'selected'}} @endif>Male</option>
+                                                    <option value="Female" @if($cliente->sexo=='Female'){{'selected'}} @endif>Female</option>
+                                                </select>
+                                                {{--<input type="text" class="form-control" id="r_genero" name="r_genero" value="{{ucwords(strtolower($cliente->sexo))}}" placeholder="Gender">--}}
                                             </div>
                                         </div>
                                         <div class="col-auto">

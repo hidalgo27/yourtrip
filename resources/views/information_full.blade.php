@@ -22,14 +22,22 @@
                 <img src="{{asset('images/cusco.jpg')}}" alt="" id="hero-vid">
                 @php
                     $precio_servicio = 0;
-
                     $precio_servicio1 = 0;
                     $precio_hotel_s = 0;
                     $precio_hotel_d = 0;
                     $precio_hotel_m = 0;
                     $precio_hotel_t = 0;
+                    $precio_sh= 0;
+                    $duracion=0;
+                    $hide_s='';
+                    $hide_d='';
+                    $hide_m='';
+                    $hide_t='';
                 @endphp
                 @foreach($cotizacion as $cotizaciones)
+                    @php
+                        $duracion=$cotizaciones->duracion;
+                    @endphp
                     @if(isset($cotizaciones))
                         @foreach($cotizaciones->paquete_cotizaciones as $paquetes)
                             @foreach($paquetes->itinerario_cotizaciones as $itinerario)
@@ -55,11 +63,19 @@
                                         $utilidad_s = $paquete_precio->utilidad_s;
                                         $precio_hotel_s = $precio_hotel_s + ($paquete_precio->precio_s * ($cotizaciones->duracion - 1)) + $utilidad_s;
                                     @endphp
+                                @elseif($paquete_precio->personas_s==0)
+                                    @php
+                                        $hide_s = 'd-none';
+                                    @endphp
                                 @endif
                                 @if($paquete_precio->personas_d>0)
                                     @php
                                         $utilidad_d = $paquete_precio->utilidad_d;
                                         $precio_hotel_d = $precio_hotel_d + (($paquete_precio->precio_d/2) * ($cotizaciones->duracion - 1)) + $utilidad_d;
+                                    @endphp
+                                @elseif($paquete_precio->personas_d==0)
+                                    @php
+                                        $hide_d = 'd-none';
                                     @endphp
                                 @endif
                                 @if($paquete_precio->personas_m>0)
@@ -67,11 +83,19 @@
                                         $utilidad_m = $paquete_precio->utilidad_m;
                                         $precio_hotel_m = $precio_hotel_m + (($paquete_precio->precio_m/2) * ($cotizaciones->duracion - 1)) + $utilidad_m;
                                     @endphp
+                                @elseif($paquete_precio->personas_m==0)
+                                    @php
+                                        $hide_m = 'd-none';
+                                    @endphp
                                 @endif
                                 @if($paquete_precio->personas_t>0)
                                     @php
                                         $utilidad_t = $paquete_precio->utilidad_t;
                                         $precio_hotel_t = $precio_hotel_t + (($paquete_precio->precio_t/3) * ($cotizaciones->duracion - 1)) + $utilidad_t;
+                                    @endphp
+                                @elseif($paquete_precio->personas_t==0)
+                                    @php
+                                        $hide_t = 'd-none';
                                     @endphp
                                 @endif
                             @endforeach
@@ -86,27 +110,6 @@
                     $precio_total_d =  $precio_servicio + $precio_hotel_d;
                     $precio_total_m =  $precio_servicio + $precio_hotel_m;
                     $precio_total_t =  $precio_servicio + $precio_hotel_t;
-
-                    if ($paquete_precio->personas_s == 0){
-                        $hide_s = 'd-none';
-                    }else{
-                        $hide_s = '';
-                    }
-                    if ($paquete_precio->personas_d == 0){
-                        $hide_d = 'd-none';
-                    }else{
-                        $hide_d = '';
-                    }
-                    if ($paquete_precio->personas_m == 0){
-                        $hide_m = 'd-none';
-                    }else{
-                        $hide_m = '';
-                    }
-                    if ($paquete_precio->personas_t == 0){
-                        $hide_t = 'd-none';
-                    }else{
-                        $hide_t = '';
-                    }
                 @endphp
 
 
