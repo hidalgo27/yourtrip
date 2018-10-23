@@ -13,11 +13,13 @@
 
 //Route::get('/', function () {
 //    return view('welcome');
-//});
+
+
 Route::get('/', [
     'uses' => 'HomeController@index1',
     'as' => 'home_path1',
 ]);
+
 Route::get('/coti/{cotizacion}-{paquete}', [
     'uses' => 'HomeController@index',
     'as' => 'home_path',
@@ -41,7 +43,7 @@ Route::post('/booking_information/s_information', [
 ]);
 
 Route::get('/final_procedures/{cotizacion}-{paquete}', [
-    'uses' => 'HomeController@final',
+    'uses' => 'HomeController@final_',
     'as' => 'final_path',
 ]);
 

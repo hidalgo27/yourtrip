@@ -1,7 +1,5 @@
 @extends('layouts.default')
-
 @section('content')
-
     <section class="header-video header-video-class d-none d-md-block">
         <div id="title" class="text-white">
             <div class="container-fluid">
@@ -49,14 +47,11 @@
                                         }elseif($servicio->precio_grupo == 1){
                                             $precio_servicio_g = $servicio->precio/$cotizaciones->nropersonas;
                                         }
-
                                         $precio_servicio = $precio_servicio +$precio_servicio_g;
                                         $precio_servicio1 .=$precio_servicio_g.'+';
-
                                     @endphp
                                 @endforeach
                             @endforeach
-
                             @foreach($paquetes->paquete_precios as $paquete_precio)
                                 @if($paquete_precio->personas_s>0)
                                     @php
@@ -98,22 +93,18 @@
                                         $hide_t = 'd-none';
                                     @endphp
                                 @endif
+
                             @endforeach
                         @endforeach
                     @endif
                 @endforeach
-
                 {{--                {{ $precio_servicio}} - {{$precio_hotel_d}} / {{$precio_servicio + $precio_hotel_d}}--}}
-
                 @php
                     $precio_total_s =  $precio_servicio + $precio_hotel_s;
                     $precio_total_d =  $precio_servicio + $precio_hotel_d;
                     $precio_total_m =  $precio_servicio + $precio_hotel_m;
                     $precio_total_t =  $precio_servicio + $precio_hotel_t;
                 @endphp
-
-
-
                 <div class="header-expedia-card col-md-5 col-lg-5 col-xl-3 text-white rounded bg-rgba-dark p-3">
                     <div class="row">
                         @foreach($usuario->where('id', $cotizaciones->users_id) as $usuarios)
