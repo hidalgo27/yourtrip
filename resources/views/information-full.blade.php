@@ -81,7 +81,7 @@
                     $precio_total_m =  $precio_servicio + $precio_hotel_m;
                     $precio_total_t =  $precio_servicio + $precio_hotel_t;
 
-                    if(duracion>1){
+                    if($duracion>1){
                         if ($paquete_precio->personas_s == 0){
                             $hide_s = 'd-none';
                         }else{
@@ -180,12 +180,12 @@
                                     <div class="col">
                                         <h5 class="text-g-yellow">
                                             @if($duracion>1)
-                                            <span class="{{$hide_s}}">${{ceil($precio_total_s)}}</span>
-                                            <span class="{{$hide_d}}">${{ceil($precio_total_d)}}</span>
-                                            <span class="{{$hide_m}}">${{ceil($precio_total_m)}}</span>
-                                            <span class="{{$hide_t}}">${{ceil($precio_total_t)}}</span>
+                                            <span class="{{$hide_s}}">Single ${{round($precio_total_s,2)}}</span> <span class="text-primary">|</span>
+                                            <span class="{{$hide_d}}">Double ${{round($precio_total_d,2)}}</span> <span class="text-primary">|</span>
+                                            <span class="{{$hide_m}}">Matrimonial ${{round($precio_total_m,2)}}</span> <span class="text-primary">|</span>
+                                            <span class="{{$hide_t}}">Triple ${{round($precio_total_t,2)}}</span> <span class="text-primary">|</span>
                                             @elseif($duracion==1)
-                                                <span >${{ceil($total_sh)}}</span>
+                                                <span >${{round($total_sh,2)}}</span>
                                             @endif
                                         </h5>
                                     </div>

@@ -72,7 +72,7 @@
                         @endphp
                         @foreach($cotizaciones->paquete_cotizaciones as $paquetes)
                             @php
-                                $utilidad=$cotizaciones->utilidad;
+                                $utilidad=$paquetes->utilidad;
                             @endphp
                             @foreach($paquetes->itinerario_cotizaciones as $itinerario)
                                 @foreach($itinerario->itinerario_servicios as $servicio)
