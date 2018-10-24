@@ -52,18 +52,29 @@
                 <img src="{{asset('images/cusco.jpg')}}" alt="" id="hero-vid">
                 @php
                     $precio_servicio = 0;
-
+                    $duracion=0;
+                    $utilidad=0;
                     $precio_servicio1 = 0;
                     $precio_hotel_s = 0;
                     $precio_hotel_d = 0;
                     $precio_hotel_m = 0;
                     $precio_hotel_t = 0;
+                    $precio_sh=0;
+                    $hide_s='';
+                    $hide_d='';
+                    $hide_m='';
+                    $hide_t='';
                 @endphp
                 @foreach($cotizacion as $cotizaciones)
                     @if(isset($cotizaciones))
+                        @php
+                            $duracion=$cotizaciones->duracion;
+                        @endphp
                         @foreach($cotizaciones->paquete_cotizaciones as $paquetes)
+                            @php
+                                $utilidad=$cotizaciones->utilidad;
+                            @endphp
                             @foreach($paquetes->itinerario_cotizaciones as $itinerario)
-
                                 @foreach($itinerario->itinerario_servicios as $servicio)
                                     @php
                                         if ($servicio->precio_grupo == 0){
@@ -80,6 +91,42 @@
                             @endforeach
 
                             @foreach($paquetes->paquete_precios as $paquete_precio)
+                                    @if ($paquete_precio->personas_s == 0)
+                                        @php
+                                            $hide_s = 'd-none';
+                                        @endphp
+                                    @else
+                                        @php
+                                            $hide_s = '';
+                                        @endphp
+                                    @endif
+                                    @if ($paquete_precio->personas_d == 0)
+                                        @php
+                                            $hide_d = 'd-none';
+                                        @endphp
+                                    @else
+                                        @php
+                                            $hide_d = '';
+                                        @endphp
+                                    @endif
+                                    @if ($paquete_precio->personas_m == 0)
+                                        @php
+                                            $hide_m = 'd-none';
+                                        @endphp
+                                    @else
+                                        @php
+                                            $hide_m = '';
+                                        @endphp
+                                    @endif
+                                    @if ($paquete_precio->personas_t == 0)
+                                        @php
+                                            $hide_t = 'd-none';
+                                        @endphp
+                                    @else
+                                        @php
+                                            $hide_t = '';
+                                        @endphp
+                                    @endif
                                 @php
 
                                     $utilidad_s = $paquete_precio->utilidad_s;
@@ -108,27 +155,7 @@
                     $precio_total_d =  $precio_servicio + $precio_hotel_d;
                     $precio_total_m =  $precio_servicio + $precio_hotel_m;
                     $precio_total_t =  $precio_servicio + $precio_hotel_t;
-
-                    if ($paquete_precio->personas_s == 0){
-                        $hide_s = 'd-none';
-                    }else{
-                        $hide_s = '';
-                    }
-                    if ($paquete_precio->personas_d == 0){
-                        $hide_d = 'd-none';
-                    }else{
-                        $hide_d = '';
-                    }
-                    if ($paquete_precio->personas_m == 0){
-                        $hide_m = 'd-none';
-                    }else{
-                        $hide_m = '';
-                    }
-                    if ($paquete_precio->personas_t == 0){
-                        $hide_t = 'd-none';
-                    }else{
-                        $hide_t = '';
-                    }
+                    $precio_sh=$precio_servicio + $utilidad;
                 @endphp
 
                 <div class="header-expedia-card col-md-5 col-lg-5 col-xl-3 text-white rounded bg-rgba-dark p-3">
@@ -231,10 +258,14 @@
                                     </div>
                                     <div class="col">
                                         <h5 class="text-g-yellow">
-                                            <span class="{{$hide_s}}">${{ceil($precio_total_s)}}</span>
-                                            <span class="{{$hide_d}}">${{ceil($precio_total_d)}}</span>
-                                            <span class="{{$hide_m}}">${{ceil($precio_total_m)}}</span>
-                                            <span class="{{$hide_t}}">${{ceil($precio_total_t)}}</span>
+                                            @if($duracion>1)
+                                            <span class="{{$hide_s}}">${{round($precio_total_s,2)}}</span>
+                                            <span class="{{$hide_d}}">${{round($precio_total_d,2)}}</span>
+                                            <span class="{{$hide_m}}">${{round($precio_total_m,2)}}</span>
+                                            <span class="{{$hide_t}}">${{round($precio_total_t,2)}}</span>
+                                            @else
+                                                <span >${{round($precio_sh,2)}}</span>
+                                            @endif
                                         </h5>
                                     </div>
                                 </div>
