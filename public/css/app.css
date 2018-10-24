@@ -1527,13 +1527,13 @@ a.ui-button:active,
  *
  * http://api.jqueryui.com/category/theming/
  */
-<<<<<<< HEAD
 .pax {
   background: #f7f7f7;
   text-align: center;
   width: 100px;
   width: 100px;
-=======
+}
+
 .circulo {
   margin: auto;
   vertical-align: middle !important;
@@ -1546,7 +1546,6 @@ a.ui-button:active,
 
 .text-center {
   text-align: center;
->>>>>>> origin_trip/master
 }
 
 /*!
@@ -3808,11 +3807,6 @@ pre code {
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
-
-.form-control:-ms-input-placeholder {
   color: #6c757d;
   opacity: 1;
 }
